@@ -5,16 +5,16 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 	</head>
-	<body>
-		<div class="container">
-			<h2>Please enter your movie review:</h2>
+	<body style="background: url(https://storage.googleapis.com/kaggle-datasets-images/1474/2639/cb50fd3b236d01184fd23ad59af50b4f/dataset-original.jpg);">
+		<div class="container" style="background: white; margin-top: 2rem; padding: 1rem;">
+			<h2>Enter your movie review:</h2>
 			{% from "_formhelpers.html" import render_field %}
 			<form method=post action="/results">
 				<dl>
-					{{ render_field(form.moviereview, cols='30', rows='10') }}
+					{{ render_field(form.moviereview, rows='8') }}
 				</dl>
 				<div>
-					<input type=submit value='Submit review' name='submit_btn'>
+					<input class="btn btn-primary" type=submit value='Submit review' name='submit_btn'>
 				</div>
 			</form>
 		</div>

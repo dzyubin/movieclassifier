@@ -5,14 +5,14 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 	</head>
-	<body>
-		<div class="container">
+	<body style="background: url(https://storage.googleapis.com/kaggle-datasets-images/1474/2639/cb50fd3b236d01184fd23ad59af50b4f/dataset-original.jpg);">
+		<div class="container" style="background: white; margin-top: 2rem; padding: 1rem;">
 			<h3>Thank you for your feedback!</h3>
-		<div id='button'>
-			<form action="/">
-				<input type=submit value='Submit another review'>
-			</form>
-		</div>
+			<div id='button'>
+				<form action="/">
+					<input type=submit value='Submit another review' class="btn btn-primary">
+				</form>
+			</div>
 		</div>
 	</body>
 </html>

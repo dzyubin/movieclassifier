@@ -6,27 +6,27 @@
 		<link rel="stylesheet"
 			href="{{ url_for('static', filename='style.css') }}">
 	</head>
-	<body>
-		<div class="container">
+	<body style="background: url(https://storage.googleapis.com/kaggle-datasets-images/1474/2639/cb50fd3b236d01184fd23ad59af50b4f/dataset-original.jpg);">
+		<div class="container" style="background: white; margin-top: 2rem; padding: 1rem;">
 			<h3>Your movie review:</h3>
 			<div>{{ content }}</div>
-			<h3>Prediction:</h3>
+			<h3 style="margin-top: 1rem;">Prediction:</h3>
 			<div>This movie review is <strong>{{ prediction }}</strong>
 			(probability: {{ probability }}%).</div>
-			<div id='button'>
-				<form action="/thanks" method="post">
-					<input type=submit value='Correct'
+			<div id='button' class="row" style="margin-top: 1rem;">
+				<form action="/thanks" method="post" class="col">
+					<input type=submit value='Correct' class="btn btn-primary" 
 					name='feedback_button'>
-					<input type=submit value='Incorrect'
+					<input type=submit value='Incorrect' class="btn btn-warning" 
 					name='feedback_button'>
 					<input type=hidden value='{{ prediction }}'
 					name='prediction'>
 					<input type=hidden value='{{ content }}' name='review'>
 				</form>
 			</div>
-			<div id='button'>
-				<form action="/">
-					<input type=submit value='Submit another review'>
+			<div id='button' class="row" style="margin-top: 1rem;">
+				<form action="/" class="col">
+					<input type=submit class="btn btn-outline-primary" value='Submit another review'>
 				</form>
 			</div>
 		</div>
