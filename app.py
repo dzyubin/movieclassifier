@@ -74,6 +74,10 @@ def feedback():
 	sqlite_entry(db, review, y)
 	return render_template('thanks.html')
 
+@app.route('/face-tracking')
+def face_tracking():
+    return render_template('face-tracking.html')
+
 if __name__ == '__main__':
 	clf = update_model(db_path=db, model=clf, batch_size=10000)
 	app.run(debug=True)
