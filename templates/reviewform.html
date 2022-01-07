@@ -7,6 +7,10 @@
 	</head>
 	<body style="background: url(https://storage.googleapis.com/kaggle-datasets-images/1474/2639/cb50fd3b236d01184fd23ad59af50b4f/dataset-original.jpg);">
 		<div class="container" style="background: white; margin-top: 2rem; padding: 1rem;">
+			<nav style="border-bottom: 1px solid; padding-bottom: .5rem; margin-bottom: 1rem;">
+				<a href="https://ml-deploy-naive-bayes.herokuapp.com/" class="btn btn-primary">Topic prediction</a>
+				<a href="https://ml-deploy-naive-bayes.herokuapp.com/word2vec" class="btn btn-primary">word2vec</a>
+			</nav>
 			<h2>Enter your movie review:</h2>
 			{% from "_formhelpers.html" import render_field %}
 			<form method=post action="/results">
