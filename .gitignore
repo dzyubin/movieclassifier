@@ -1,2 +1,4 @@
 __pycache__/
 *.py[cod]
+
+__pycache__/vectorizer.cpython-37.pyc

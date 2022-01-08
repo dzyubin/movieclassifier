@@ -1,9 +1,15 @@
-from flask import Flask, render_template, request
-from wtforms import Form, TextAreaField, FileField, validators
+from flask import Flask, render_template, render_template_string, request, redirect, url_for
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileField
+from wtforms import Form, TextAreaField, validators
+from werkzeug.utils import secure_filename
 import pickle
 import sqlite3
 import os
 import numpy as np
+
+import os
+SECRET_KEY = os.urandom(32)
 
 # import HashingVectorizer from local dir
 from vectorizer import vect
@@ -12,6 +18,7 @@ from vectorizer import vect
 from update import update_model
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = SECRET_KEY
 
 ######## Preparing the Classifier
 cur_dir = os.path.dirname(__file__)
@@ -74,26 +81,44 @@ def feedback():
 	sqlite_entry(db, review, y)
 	return render_template('thanks.html')
 
-class UploadForm(Form):
-	video = FileField('Video File', [validators.regexp('^\[^/\\]\.mp4$')])
+# class UploadForm(Form):
+# 	video = FileField('Video File', [validators.regexp('^\[^/\\]\.mp4$')])
 
-@app.route('/face-tracking')
+class UploadForm(FlaskForm):
+    file = FileField()
+
+@app.route('/face-tracking', methods=['GET', 'POST'])
 def face_tracking():
-	form = UploadForm(request.form)
+	form = UploadForm()
+
+	if form.validate_on_submit():
+		filename = secure_filename(form.file.data.filename)
+		form.file.data.save('uploads/' + filename)
+		return redirect(url_for('face_tracking'))
+
 	return render_template('face-tracking.html', form=form)
 
-@app.route('/face-tracking-results', methods=['POST'])
+@app.route('/face-tracking-results', methods=['GET', 'POST'])
 def face_tracking_results():
-	form = UploadForm(request.form)
-	if request.method == 'POST' and form.validate():
-		print(request)
+	# form = UploadForm(request.form)
+	form = UploadForm()
+	# if request.method == 'POST' and form.validate():
+		# print(request)
+		# print(form)
 		# review = request.form['moviereview']
 		# y, proba = classify(review)
 		# return render_template('results.html',
 		# 		content=review,
 		# 		prediction=y,
 		# 		probability=round(proba*100, 2))
-	return render_template('reviewform.html', form=form)
+	# return render_template('reviewform.html', form=form)
+	
+	# if form.validate_on_submit():
+	# 	filename = secure_filename(form.file.data.filename)
+	# 	form.file.data.save('uploads/' + filename)
+	# 	return redirect(url_for('upload'))
+    
+	# return render_template('face-tracking-results.html', request=request)
 
 if __name__ == '__main__':
 	clf = update_model(db_path=db, model=clf, batch_size=10000)

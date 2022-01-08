@@ -14,13 +14,16 @@
 			</nav>
 			<h2>Enter your movie review:</h2>
 			{% from "_formhelpers.html" import render_field %}
-			<form method=post action="/face-tracking-results">
+			<form method=post enctype="multipart/form-data">
 				<dl>
-					{{ render_field(form.video) }}
+					{{ form.hidden_tag() }}
+					{{ form.file }}
+					<br>
+					<input type="submit" />
 				</dl>
-				<div>
+				<!-- <div>
 					<input class="btn btn-primary" type=submit value='Submit review' name='submit_btn'>
-				</div>
+				</div> -->
 			</form>
 		</div>
 	</body>
