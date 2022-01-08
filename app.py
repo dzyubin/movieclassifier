@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from wtforms import Form, TextAreaField, validators
+from wtforms import Form, TextAreaField, FileField, validators
 import pickle
 import sqlite3
 import os
@@ -74,9 +74,26 @@ def feedback():
 	sqlite_entry(db, review, y)
 	return render_template('thanks.html')
 
+class UploadForm(Form):
+	video = FileField('Video File', [validators.regexp('^\[^/\\]\.mp4$')])
+
 @app.route('/face-tracking')
 def face_tracking():
-    return render_template('face-tracking.html')
+	form = UploadForm(request.form)
+	return render_template('face-tracking.html', form=form)
+
+@app.route('/face-tracking-results', methods=['POST'])
+def face_tracking_results():
+	form = UploadForm(request.form)
+	if request.method == 'POST' and form.validate():
+		print(request)
+		# review = request.form['moviereview']
+		# y, proba = classify(review)
+		# return render_template('results.html',
+		# 		content=review,
+		# 		prediction=y,
+		# 		probability=round(proba*100, 2))
+	return render_template('reviewform.html', form=form)
 
 if __name__ == '__main__':
 	clf = update_model(db_path=db, model=clf, batch_size=10000)

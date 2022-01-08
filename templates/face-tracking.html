@@ -1,6 +1,27 @@
+<!doctype html>
 <html>
-    <head></head>
-    <body>
-        adsfs
-    </body>
+	<head>
+		<title>Face Tracking</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	</head>
+	<body style="background: url(https://storage.googleapis.com/kaggle-datasets-images/1474/2639/cb50fd3b236d01184fd23ad59af50b4f/dataset-original.jpg);">
+		<div class="container" style="background: white; margin-top: 2rem; padding: 1rem;">
+			<nav style="border-bottom: 1px solid; padding-bottom: .5rem; margin-bottom: 1rem;">
+				<a href="https://ml-deploy-naive-bayes.herokuapp.com/" class="btn btn-primary">Topic prediction</a>
+				<a href="https://ml-deploy-naive-bayes.herokuapp.com/word2vec" class="btn btn-primary">word2vec</a>
+				<a href="/" class="btn btn-primary">Movie review classification</a>
+			</nav>
+			<h2>Enter your movie review:</h2>
+			{% from "_formhelpers.html" import render_field %}
+			<form method=post action="/face-tracking-results">
+				<dl>
+					{{ render_field(form.video) }}
+				</dl>
+				<div>
+					<input class="btn btn-primary" type=submit value='Submit review' name='submit_btn'>
+				</div>
+			</form>
+		</div>
+	</body>
 </html>
