@@ -1,4 +1,4 @@
-from flask import Flask, render_template, render_template_string, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
 from wtforms import Form, TextAreaField, validators
@@ -25,7 +25,7 @@ from vectorizer import vect
 # import update function from local dir
 from update import update_model
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 app.config['SECRET_KEY'] = SECRET_KEY
 
 ######## Preparing the Classifier
@@ -107,10 +107,14 @@ def face_tracking():
 
 	return render_template('face-tracking.html', form=form, wd=os.getcwd(), version=sys.version, vinf=sys.version_info)
 
-@app.route('/face-tracking-results', methods=['GET', 'POST'])
-def face_tracking_results():
+@app.route('/video')
+def send_video(path):
+    return send_from_directory('video', path)
+
+# @app.route('/face-tracking-results', methods=['GET', 'POST'])
+# def face_tracking_results():
 	# form = UploadForm(request.form)
-	form = UploadForm()
+	# form = UploadForm()
 	# if request.method == 'POST' and form.validate():
 		# print(request)
 		# print(form)
