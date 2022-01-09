@@ -11,6 +11,12 @@ import numpy as np
 import os
 SECRET_KEY = os.urandom(32)
 
+import sys
+print("Python version")
+print (sys.version)
+print("Version info.")
+print (sys.version_info)
+
 import face_tracking
 
 # import HashingVectorizer from local dir
@@ -99,7 +105,7 @@ def face_tracking():
 		form.file.data.save('uploads/' + filename)
 		return redirect(url_for('face_tracking'))
 
-	return render_template('face-tracking.html', form=form, wd=os.getcwd())
+	return render_template('face-tracking.html', form=form, wd=os.getcwd(), version=sys.version, vinf=sys.version_info)
 
 @app.route('/face-tracking-results', methods=['GET', 'POST'])
 def face_tracking_results():
