@@ -107,9 +107,9 @@ def face_tracking():
 
 	return render_template('face-tracking.html', form=form, wd=os.getcwd(), version=sys.version, vinf=sys.version_info)
 
-@app.route('/video')
+@app.route('/video/video_tracked.mp4')
 def send_video(path):
-    return send_from_directory('video', path)
+    return send_from_directory('', path)
 
 # @app.route('/face-tracking-results', methods=['GET', 'POST'])
 # def face_tracking_results():
