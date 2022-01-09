@@ -54,7 +54,7 @@ print('\nDone')
 # Save tracked video
 dim = frames_tracked[0].size
 fourcc = cv2.VideoWriter_fourcc(*'FMP4')    
-video_tracked = cv2.VideoWriter('video_tracked.mp4', fourcc, 25.0, dim)
+video_tracked = cv2.VideoWriter('uploads/video_tracked.mp4', fourcc, 25.0, dim)
 for frame in frames_tracked:
   print(frame)
   video_tracked.write(cv2.cvtColor(np.array(frame), cv2.COLOR_RGB2BGR))
