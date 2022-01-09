@@ -3,7 +3,7 @@ import mmcv, cv2
 import torch
 import sys
 from PIL import Image, ImageDraw
-from IPython import display
+# from IPython import display
 import os
 # print("Python version")
 # print (sys.version)
@@ -20,3 +20,13 @@ print(os.listdir())
 #loading a video with some faces in it. The mmcv PyPI package by mmlabs is used to read the video frames (it can be installed with pip install mmcv). Frames are then converted to PIL images
 video = mmcv.VideoReader('uploads/video.mp4')
 frames = [Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)) for frame in video]
+
+from IPython.display import HTML
+from base64 import b64encode
+mp4 = open('uploads/video.mp4','rb').read()
+data_url = "data:video/mp4;base64," + b64encode(mp4).decode()
+HTML("""
+<video width=400 controls>
+      <source src="%s" type="video/mp4">
+</video>
+""" % data_url)
