@@ -21,12 +21,40 @@ print(os.listdir())
 video = mmcv.VideoReader('uploads/video.mp4')
 frames = [Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)) for frame in video]
 
-from IPython.display import HTML
-from base64 import b64encode
-mp4 = open('uploads/video.mp4','rb').read()
-data_url = "data:video/mp4;base64," + b64encode(mp4).decode()
-HTML("""
-<video width=400 controls>
-      <source src="%s" type="video/mp4">
-</video>
-""" % data_url)
+# from IPython.display import HTML
+# from base64 import b64encode
+# mp4 = open('uploads/video.mp4','rb').read()
+# data_url = "data:video/mp4;base64," + b64encode(mp4).decode()
+# HTML("""
+# <video width=400 controls>
+#       <source src="%s" type="video/mp4">
+# </video>
+# """ % data_url)
+
+# iterate through each frame, detect faces, and draw their bounding boxes on the video frames.
+frames_tracked = []
+for i, frame in enumerate(frames):
+  print('\rTracking frame: {}'.format(i + 1), end='')
+  
+  # Detect faces
+  boxes, _ = mtcnn.detect(frame)
+  
+  # Draw faces
+  frame_draw = frame.copy()
+  draw = ImageDraw.Draw(frame_draw)
+  if boxes is not None:
+    for box in boxes:
+      draw.rectangle(box.tolist(), outline=(255, 0, 0), width=6)
+  
+  # Add to frame list
+  frames_tracked.append(frame_draw.resize((640, 360), Image.BILINEAR))
+print('\nDone')
+
+# Save tracked video
+dim = frames_tracked[0].size
+fourcc = cv2.VideoWriter_fourcc(*'FMP4')    
+video_tracked = cv2.VideoWriter('video_tracked.mp4', fourcc, 25.0, dim)
+for frame in frames_tracked:
+  print(frame)
+  video_tracked.write(cv2.cvtColor(np.array(frame), cv2.COLOR_RGB2BGR))
+video_tracked.release()
