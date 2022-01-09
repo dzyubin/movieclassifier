@@ -11,6 +11,8 @@ import numpy as np
 import os
 SECRET_KEY = os.urandom(32)
 
+import face_tracking
+
 # import HashingVectorizer from local dir
 from vectorizer import vect
 
