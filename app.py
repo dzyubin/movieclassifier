@@ -90,13 +90,14 @@ class UploadForm(FlaskForm):
 @app.route('/face-tracking', methods=['GET', 'POST'])
 def face_tracking():
 	form = UploadForm()
+	print(os.getcwd())
 
 	if form.validate_on_submit():
 		filename = secure_filename(form.file.data.filename)
 		form.file.data.save('/uploads/' + filename)
 		return redirect(url_for('face_tracking'))
 
-	return render_template('face-tracking.html', form=form)
+	return render_template('face-tracking.html', form=form, wd=os.getcwd())
 
 @app.route('/face-tracking-results', methods=['GET', 'POST'])
 def face_tracking_results():
