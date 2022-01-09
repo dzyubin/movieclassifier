@@ -25,7 +25,7 @@ from vectorizer import vect
 # import update function from local dir
 from update import update_model
 
-app = Flask(__name__, static_url_path='static')
+app = Flask(__name__, static_url_path='/static')
 app.config['SECRET_KEY'] = SECRET_KEY
 
 ######## Preparing the Classifier
