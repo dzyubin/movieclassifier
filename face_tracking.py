@@ -7,3 +7,6 @@ from IPython import display
 # print (sys.version)
 # print("Version info.")
 # print (sys.version_info)
+
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+print('Running on device: {}'.format(device))
