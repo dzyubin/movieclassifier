@@ -17,7 +17,7 @@ print (sys.version)
 print("Version info.")
 print (sys.version_info)
 
-# import face_tracking
+import face_tracking
 
 # import HashingVectorizer from local dir
 from vectorizer import vect
