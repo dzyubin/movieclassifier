@@ -101,8 +101,9 @@ def face_tracking():
 	form = UploadForm()
  
 	if form.validate_on_submit():
+		print(os.getcwd())
 		filename = secure_filename(form.file.data.filename)
-		form.file.data.save('uploads/' + filename)
+		form.file.data.save(f'{os.getcwd()}/uploads/' + filename)
 		process_video(filename=filename)
 		# return redirect(url_for('face_tracking'))
 		return render_template('face-tracking.html', processed_video_link=f'static/video_tracked.mp4', form=form)
