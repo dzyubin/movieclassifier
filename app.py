@@ -9,15 +9,16 @@ import os
 import numpy as np
 
 import os
+# import sys
 SECRET_KEY = os.urandom(32)
 
-import sys
-print("Python version")
-print (sys.version)
-print("Version info.")
-print (sys.version_info)
+# print("Python version")
+# print (sys.version)
+# print("Version info.")
+# print (sys.version_info)
 
 import face_tracking
+from face_tracking import process_video
 
 # import HashingVectorizer from local dir
 from vectorizer import vect
@@ -98,18 +99,15 @@ class UploadForm(FlaskForm):
 @app.route('/face-tracking', methods=['GET', 'POST'])
 def face_tracking():
 	form = UploadForm()
-	print(os.getcwd())
-
+ 
 	if form.validate_on_submit():
 		filename = secure_filename(form.file.data.filename)
 		form.file.data.save('uploads/' + filename)
-		return redirect(url_for('face_tracking'))
-
-	return render_template('face-tracking.html', form=form, wd=os.getcwd(), version=sys.version, vinf=sys.version_info)
-
-@app.route('/video/video_tracked.mp4')
-def send_video(path):
-    return send_from_directory('', path)
+		process_video(filename=filename)
+		# return redirect(url_for('face_tracking'))
+		return render_template('face-tracking.html', processed_video_link=f'static/video_tracked.mp4', form=form)
+	
+	return render_template('face-tracking.html', form=form)
 
 # @app.route('/face-tracking-results', methods=['GET', 'POST'])
 # def face_tracking_results():
