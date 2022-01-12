@@ -19,6 +19,8 @@ def process_video(filename):
   mtcnn = MTCNN(keep_all=True, device=device)
   static_files_path = f'{os.getcwd()}/movieclassifier_new/static'
   print(static_files_path)
+  file_extension = filename.split()[1]
+  print(file_extension)
 
   #loading a video with some faces in it. The mmcv PyPI package by mmlabs is used to read the video frames (it can be installed with pip install mmcv). Frames are then converted to PIL images
   video = mmcv.VideoReader(f'{os.getcwd()}/movieclassifier_new/uploads/{filename}')
