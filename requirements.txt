@@ -1,0 +1,6 @@
+flask
+numpy
+facenet_pytorch
+mmcv
+flask_wtf
+sklearn

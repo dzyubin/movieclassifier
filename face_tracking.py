@@ -4,12 +4,7 @@ import torch
 import numpy as np
 import sys
 from PIL import Image, ImageDraw
-# from IPython import display
 import os
-# print("Python version")
-# print (sys.version)
-# print("Version info.")
-# print (sys.version_info)
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 print('Running on device: {}'.format(device))
@@ -19,11 +14,15 @@ def process_video(filename):
   mtcnn = MTCNN(keep_all=True, device=device)
   static_files_path = f'{os.getcwd()}/movieclassifier_new/static'
   print(static_files_path)
-  file_extension = filename.split()[1]
+  file_extension = filename.split('.')[1]
   print(file_extension)
 
   #loading a video with some faces in it. The mmcv PyPI package by mmlabs is used to read the video frames (it can be installed with pip install mmcv). Frames are then converted to PIL images
-  video = mmcv.VideoReader(f'{os.getcwd()}/movieclassifier_new/uploads/{filename}')
+  # movieclassifier_new is the name of the root project directory on the hosting
+  try:
+    video = mmcv.VideoReader(f'{os.getcwd()}/movieclassifier_new/uploads/{filename}')
+  except:
+    video = mmcv.VideoReader(f'{os.getcwd()}/uploads/{filename}')
   frames = [Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)) for frame in video]
 
   # from IPython.display import HTML
@@ -57,8 +56,11 @@ def process_video(filename):
 
   # Save tracked video
   dim = frames_tracked[0].size
-  fourcc = cv2.VideoWriter_fourcc(*'FMP4')  
-  video_tracked = cv2.VideoWriter(f'{static_files_path}/video_tracked.mp4', fourcc, 25.0, dim)
+  fourcc = cv2.VideoWriter_fourcc(*'FMP4')
+  if (os.path.isdir(static_files_path)):
+    video_tracked = cv2.VideoWriter(f'{static_files_path}/video_tracked.mp4', fourcc, 25.0, dim)
+  else:
+    video_tracked = cv2.VideoWriter(f'{os.getcwd()}/static/video_tracked.mp4', fourcc, 25.0, dim)
   for frame in frames_tracked:
     print(frame)
     video_tracked.write(cv2.cvtColor(np.array(frame), cv2.COLOR_RGB2BGR))
