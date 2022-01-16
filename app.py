@@ -99,20 +99,27 @@ class UploadForm(FlaskForm):
 @app.route('/face-tracking', methods=['GET', 'POST'])
 def face_tracking():
 	form = UploadForm()
+	tracked_dir_files = os.listdir(f'{os.getcwd()}/static/tracked')
+	tracked_dir_paths = [f'static/tracked/{filename}' for filename in tracked_dir_files]
+	print(tracked_dir_paths)
+
+	untracked_dir_files = os.listdir(f'{os.getcwd()}/static/untracked')
+	untracked_dir_paths = [f'static/untracked/{filename}' for filename in untracked_dir_files]
+	print(untracked_dir_paths)
  
 	if form.validate_on_submit():
-		print(os.getcwd())
+		# print(os.getcwd())
 		filename = secure_filename(form.file.data.filename)
 		# movieclassifier_new is the name of the root project directory on the hosting
 		try:
-			form.file.data.save(f'{os.getcwd()}/movieclassifier_new/uploads/' + filename)
+			form.file.data.save(f'{os.getcwd()}/movieclassifier_new/static/untracked/' + filename)
 		except:
-			form.file.data.save(f'{os.getcwd()}/uploads/' + filename)
+			form.file.data.save(f'{os.getcwd()}/static/untracked/' + filename)
 		process_video(filename=filename)
 		# return redirect(url_for('face_tracking'))
-		return render_template('face-tracking.html', processed_video_link=f'movieclassifier_new/static/video_tracked.mp4', form=form)
+		return render_template('face-tracking.html', processed_video_link=f'movieclassifier_new/static/video_tracked.mp4', form=form, tracked_dir_paths=tracked_dir_paths, untracked_dir_paths=untracked_dir_paths)
 	
-	return render_template('face-tracking.html', form=form)
+	return render_template('face-tracking.html', form=form, tracked_dir_paths=tracked_dir_paths, untracked_dir_paths=untracked_dir_paths)
 
 # @app.route('/face-tracking-results', methods=['GET', 'POST'])
 # def face_tracking_results():

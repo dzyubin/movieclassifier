@@ -9,3 +9,9 @@ body{
 textarea {
 	width: 100%;
 }
+
+.video_file_input {
+	float: left;
+	width: 50%;
+	vertical-align: middle;
+}

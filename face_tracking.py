@@ -20,9 +20,9 @@ def process_video(filename):
   #loading a video with some faces in it. The mmcv PyPI package by mmlabs is used to read the video frames (it can be installed with pip install mmcv). Frames are then converted to PIL images
   # movieclassifier_new is the name of the root project directory on the hosting
   try:
-    video = mmcv.VideoReader(f'{os.getcwd()}/movieclassifier_new/uploads/{filename}')
+    video = mmcv.VideoReader(f'{os.getcwd()}/movieclassifier_new/static/untracked/{filename}')
   except:
-    video = mmcv.VideoReader(f'{os.getcwd()}/uploads/{filename}')
+    video = mmcv.VideoReader(f'{os.getcwd()}/static/untracked/{filename}')
   frames = [Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)) for frame in video]
 
   # from IPython.display import HTML
@@ -56,7 +56,8 @@ def process_video(filename):
 
   # Save tracked video
   dim = frames_tracked[0].size
-  fourcc = cv2.VideoWriter_fourcc(*'FMP4')
+  # fourcc = cv2.VideoWriter_fourcc(*'FMP4')
+  fourcc = cv2.VideoWriter_fourcc(*'H264')
   if (os.path.isdir(static_files_path)):
     video_tracked = cv2.VideoWriter(f'{static_files_path}/video_tracked.mp4', fourcc, 25.0, dim)
   else:

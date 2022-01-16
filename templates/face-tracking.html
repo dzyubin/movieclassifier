@@ -17,13 +17,31 @@
 			<form method=post enctype="multipart/form-data">
 				<dl>
 					{{ form.hidden_tag() }}
-					{{ form.file }}
-					{{ processed_video_link }}
-					<a href="{{ url_for('static', filename='video_tracked.mp4') }}">link</a>
+					{{ form.file(class_='btn video_file_input') }}
+					<!-- {{ processed_video_link }} -->
+					<!-- <a href="{{ url_for('static', filename='video_tracked.mp4') }}">link</a> -->
 					<!-- <input type="file" name="video" id="video" /> -->
-					<br>
+					<!-- <br> -->
 					<input class="btn btn-primary" type="submit" />
 				</dl>
+				<div class="row">
+					<div class="col-6">
+						<h5>Uploaded Videos</h5>
+						<ul>
+							{% for filename in tracked_dir_paths %}
+								<li><a href='{{filename}}'>{{filename}}</a></li>
+							{% endfor %}
+						</ul>
+					</div>
+					<div class="col-6">
+						<h5>Videos with faces tracked</h5>
+						<ul>
+							{% for filename in untracked_dir_paths %}
+								<li><a href='{{filename}}'>{{filename}}</a></li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
 				<!-- <div>
 					<input class="btn btn-primary" type=submit value='Submit review' name='submit_btn'>
 				</div> -->
