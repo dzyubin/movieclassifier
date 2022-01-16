@@ -4,3 +4,5 @@ __pycache__/
 __pycache__/vectorizer.cpython-37.pyc
 
 uploads/*.*
+
+static/*.mp4
