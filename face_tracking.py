@@ -12,17 +12,22 @@ print('Running on device: {}'.format(device))
 def process_video(filename):
   # since MTCNN is a collection of neural nets and other code, the device must be passed in the following way to enable copying of objects when needed internally.
   mtcnn = MTCNN(keep_all=True, device=device)
-  static_files_path = f'{os.getcwd()}/movieclassifier_new/static'
+  
+  root_dir = os.getcwd()
+  if (os.path.isdir(f'{os.getcwd()}/movieclassifier_new')):
+    root_dir = f'{os.getcwd()}/movieclassifier_new'
+
+  static_files_path = f'{root_dir}/static'
   print(static_files_path)
   file_extension = filename.split('.')[1]
   print(file_extension)
 
   #loading a video with some faces in it. The mmcv PyPI package by mmlabs is used to read the video frames (it can be installed with pip install mmcv). Frames are then converted to PIL images
   # movieclassifier_new is the name of the root project directory on the hosting
-  try:
-    video = mmcv.VideoReader(f'{os.getcwd()}/movieclassifier_new/static/untracked/{filename}')
-  except:
-    video = mmcv.VideoReader(f'{os.getcwd()}/static/untracked/{filename}')
+  # try:
+  video = mmcv.VideoReader(f'{static_files_path}/untracked/{filename}')
+  # except:
+    # video = mmcv.VideoReader(f'{os.getcwd()}/static/untracked/{filename}')
   frames = [Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)) for frame in video]
 
   # from IPython.display import HTML
@@ -58,10 +63,10 @@ def process_video(filename):
   dim = frames_tracked[0].size
   # fourcc = cv2.VideoWriter_fourcc(*'FMP4')
   fourcc = cv2.VideoWriter_fourcc(*'H264')
-  if (os.path.isdir(static_files_path)):
-    video_tracked = cv2.VideoWriter(f'{static_files_path}/video_tracked.mp4', fourcc, 25.0, dim)
-  else:
-    video_tracked = cv2.VideoWriter(f'{os.getcwd()}/static/video_tracked.mp4', fourcc, 25.0, dim)
+  # if (os.path.isdir(static_files_path)):
+  video_tracked = cv2.VideoWriter(f'{static_files_path}/video_tracked.mp4', fourcc, 25.0, dim)
+  # else:
+    # video_tracked = cv2.VideoWriter(f'{os.getcwd()}/static/video_tracked.mp4', fourcc, 25.0, dim)
   for frame in frames_tracked:
     print(frame)
     video_tracked.write(cv2.cvtColor(np.array(frame), cv2.COLOR_RGB2BGR))
