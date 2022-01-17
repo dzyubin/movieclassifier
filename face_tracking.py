@@ -64,7 +64,7 @@ def process_video(filename):
   # fourcc = cv2.VideoWriter_fourcc(*'FMP4')
   fourcc = cv2.VideoWriter_fourcc(*'H264')
   # if (os.path.isdir(static_files_path)):
-  video_tracked = cv2.VideoWriter(f'{static_files_path}/video_tracked.mp4', fourcc, 25.0, dim)
+  video_tracked = cv2.VideoWriter(f'{static_files_path}/tracked/video_tracked.mp4', fourcc, 25.0, dim)
   # else:
     # video_tracked = cv2.VideoWriter(f'{os.getcwd()}/static/video_tracked.mp4', fourcc, 25.0, dim)
   for frame in frames_tracked:
