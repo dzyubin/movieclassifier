@@ -103,11 +103,11 @@ def face_tracking():
 		root_dir = f'{os.getcwd()}/movieclassifier_new'
 	print(root_dir)
 	form = UploadForm()
-	tracked_dir_files = os.listdir(f'{os.getcwd()}/static/tracked')
+	tracked_dir_files = os.listdir(f'{root_dir}/static/tracked')
 	tracked_dir_paths = [f'static/tracked/{filename}' for filename in tracked_dir_files]
 	print(tracked_dir_paths)
 
-	untracked_dir_files = os.listdir(f'{os.getcwd()}/static/untracked')
+	untracked_dir_files = os.listdir(f'{root_dir}/static/untracked')
 	untracked_dir_paths = [f'static/untracked/{filename}' for filename in untracked_dir_files]
 	print(untracked_dir_paths)
  
