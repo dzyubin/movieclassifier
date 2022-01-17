@@ -98,6 +98,10 @@ class UploadForm(FlaskForm):
 
 @app.route('/face-tracking', methods=['GET', 'POST'])
 def face_tracking():
+	root_dir = os.getcwd()
+	if (os.path.isdir(f'{os.getcwd()}/movieclassifier_new')):
+		root_dir = f'{os.getcwd()}/movieclassifier_new'
+	print(root_dir)
 	form = UploadForm()
 	tracked_dir_files = os.listdir(f'{os.getcwd()}/static/tracked')
 	tracked_dir_paths = [f'static/tracked/{filename}' for filename in tracked_dir_files]

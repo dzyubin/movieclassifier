@@ -5,4 +5,5 @@ __pycache__/vectorizer.cpython-37.pyc
 
 uploads/*.*
 
-static/*.mp4
+static/tracked/*.mp4
+static/untracked/*.mp4
