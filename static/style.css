@@ -15,3 +15,8 @@ textarea {
 	width: 50%;
 	vertical-align: middle;
 }
+
+div.spinner-grow {
+	vertical-align: middle;
+	display: none;
+}

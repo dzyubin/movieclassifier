@@ -1,6 +1,13 @@
-const submitBtn = document.querySelector('input["submit"]')
-console.log(submitBtn);
+setTimeout(() => {
+    startSpinner()
+}, 0)
 
 function startSpinner() {
-    // submitBtn
+    const submitBtn = document.querySelector('#submitBtn')
+
+    submitBtn.addEventListener('click', ({ target }) => {
+        const spinner = document.querySelector('div.spinner-grow')
+        spinner.style.display = 'inline-block'
+        submitBtn.value = 'Tracking faces...'
+    })
 }
