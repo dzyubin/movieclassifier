@@ -38,7 +38,7 @@ def process_video(filename):
   # iterate through each frame, detect faces, and draw their bounding boxes on the video frames.
   frames_tracked = []
   for i, frame in enumerate(frames):
-    print('\rTracking frame: {}'.format(i + 1), end='')
+    # print('\rTracking frame: {}'.format(i + 1), end='')
     if i == 1:
       frame.save(f'{static_files_path}/test.jpg')
     if i > 10:
@@ -64,8 +64,8 @@ def process_video(filename):
   # fourcc = cv2.VideoWriter_fourcc(*'H264')
   # fourcc = cv2.VideoWriter_fourcc(*'avc1')
   fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-  video_tracked = cv2.VideoWriter(f'{static_files_path}/video_tracked.mp4', fourcc, 25.0, dim)
-  for frame in frames_tracked:
-    print(frame)
-    video_tracked.write(cv2.cvtColor(np.array(frame), cv2.COLOR_RGB2BGR))
-  video_tracked.release()
+  # video_tracked = cv2.VideoWriter(f'{static_files_path}/video_tracked.mp4', fourcc, 25.0, dim)
+  # for frame in frames_tracked:
+  #   print(frame)
+  #   video_tracked.write(cv2.cvtColor(np.array(frame), cv2.COLOR_RGB2BGR))
+  # video_tracked.release()
