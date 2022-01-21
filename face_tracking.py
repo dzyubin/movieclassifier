@@ -39,6 +39,8 @@ def process_video(filename):
   frames_tracked = []
   for i, frame in enumerate(frames):
     print('\rTracking frame: {}'.format(i + 1), end='')
+    if i > 50:
+      continue
     
     # Detect faces
     boxes, _ = mtcnn.detect(frame)
