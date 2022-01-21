@@ -61,8 +61,9 @@ def process_video(filename):
   # Save tracked video
   dim = frames_tracked[0].size
   # fourcc = cv2.VideoWriter_fourcc(*'FMP4')
-  fourcc = cv2.VideoWriter_fourcc(*'H264')
-  video_tracked = cv2.VideoWriter(f'{static_files_path}/tracked/video_tracked.mp4', fourcc, 25.0, dim)
+  # fourcc = cv2.VideoWriter_fourcc(*'H264')
+  fourcc = cv2.VideoWriter_fourcc(*'avc1')
+  video_tracked = cv2.VideoWriter(f'{static_files_path}/video_tracked.mp4', fourcc, 25.0, dim)
   for frame in frames_tracked:
     print(frame)
     video_tracked.write(cv2.cvtColor(np.array(frame), cv2.COLOR_RGB2BGR))
