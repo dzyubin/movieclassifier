@@ -40,8 +40,8 @@ def process_video(filename):
   for i, frame in enumerate(frames):
     print('\rTracking frame: {}'.format(i + 1), end='')
     if i == 1:
-      frame.save('./test.jpg')
-    if i > 50:
+      frame.save(f'{static_files_path}/test.jpg')
+    if i > 10:
       continue
     
     # Detect faces
