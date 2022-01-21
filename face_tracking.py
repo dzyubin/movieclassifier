@@ -39,6 +39,8 @@ def process_video(filename):
   frames_tracked = []
   for i, frame in enumerate(frames):
     print('\rTracking frame: {}'.format(i + 1), end='')
+    if i == 1:
+      frame.save('./test.jpg')
     if i > 50:
       continue
     
