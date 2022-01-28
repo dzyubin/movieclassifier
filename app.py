@@ -115,8 +115,7 @@ def face_tracking():
 		form.file.data.save(f'{root_dir}/static/untracked/' + filename)
 		
 		process_video(filename=filename)
-		# return redirect(url_for('face_tracking'))
-		return render_template('face-tracking.html', form=form, tracked_dir_paths=tracked_dir_paths, untracked_dir_paths=untracked_dir_paths)
+		return redirect(url_for('face_tracking', form=form, tracked_dir_paths=tracked_dir_paths, untracked_dir_paths=untracked_dir_paths))
 	
 	return render_template('face-tracking.html', form=form, tracked_dir_paths=tracked_dir_paths, untracked_dir_paths=untracked_dir_paths)
 

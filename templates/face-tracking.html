@@ -15,11 +15,11 @@
 			</nav>
 			<div class="row">
 				<div class="col-12">
-					<span class="badge badge-secondary">Facenet Pytorch</span>
+					<a href="https://github.com/timesler/facenet-pytorch" target="_blank"><span class="badge badge-secondary">Facenet Pytorch</span></a>
 				</div>
 			</div>
 			<hr>
-			<h2>Choose a video:</h2>
+			<h2 style="float: left;">Choose a video:</h2>
 			{% from "_formhelpers.html" import render_field %}
 			<form method=post enctype="multipart/form-data">
 				<dl>
@@ -49,6 +49,23 @@
 							{% for filename in tracked_dir_paths %}
 								<li><a href='{{filename}}'>{{filename}}</a></li>
 							{% endfor %}
+						</ul>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-12">
+						<ul>
+							<li>
+								Choose a video with people in it and click <code>Submit</code><br>
+								NOTE: It must be in <code>mp4</code> format (<a href="https://cloudconvert.com/mp4-converter" target="_blank">video files converter</a>)
+							</li>
+							<li>After model finished processing links for uploaded video and video with faces tracked 
+								are gonna be added to respective columns
+							</li>
+							<li>
+								If video isn't playing in the browser right click and choose <code>Save link as...</code> to download it
+							</li>
 						</ul>
 					</div>
 				</div>

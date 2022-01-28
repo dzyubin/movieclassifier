@@ -40,7 +40,7 @@ def process_video(filename):
   for i, frame in enumerate(frames):
     if i == 1:
       frame.save(f'{static_files_path}/test.jpg')
-    if i > 50:
+    if i > 10:
       continue
     print('\rTracking frame: {}'.format(i + 1), end='')
     
