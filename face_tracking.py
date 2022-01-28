@@ -18,11 +18,11 @@ def process_video(filename):
     root_dir = f'{os.getcwd()}/movieclassifier_new'
 
   static_files_path = f'{root_dir}/static'
-  file_extension = filename.split('.')[1]
+  filename, file_extension = os.path.splitext(filename)
 
   #loading a video with some faces in it. The mmcv PyPI package by mmlabs is used to read the video frames (it can be installed with pip install mmcv). Frames are then converted to PIL images
   # movieclassifier_new is the name of the root project directory on the hosting
-  video = mmcv.VideoReader(f'{static_files_path}/untracked/{filename}')
+  video = mmcv.VideoReader(f'{static_files_path}/untracked/{filename}{file_extension}')
   frames = [Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)) for frame in video]
 
   # from IPython.display import HTML
@@ -38,8 +38,6 @@ def process_video(filename):
   # iterate through each frame, detect faces, and draw their bounding boxes on the video frames.
   frames_tracked = []
   for i, frame in enumerate(frames):
-    if i == 1:
-      frame.save(f'{static_files_path}/test.jpg')
     if i > 10:
       continue
     print('\rTracking frame: {}'.format(i + 1), end='')
@@ -61,10 +59,10 @@ def process_video(filename):
   # Save tracked video
   dim = frames_tracked[0].size
   # fourcc = cv2.VideoWriter_fourcc(*'FMP4')
-  # fourcc = cv2.VideoWriter_fourcc(*'H264')
+  fourcc = cv2.VideoWriter_fourcc(*'H264')
   # fourcc = cv2.VideoWriter_fourcc(*'avc1')
-  fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-  video_tracked = cv2.VideoWriter(f'{static_files_path}/tracked/video_tracked.mp4', fourcc, 25.0, dim)
+  # fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+  video_tracked = cv2.VideoWriter(f'{static_files_path}/tracked/{filename}_tracked.mp4', fourcc, 25.0, dim)
   for frame in frames_tracked:
     print(frame)
     video_tracked.write(cv2.cvtColor(np.array(frame), cv2.COLOR_RGB2BGR))
