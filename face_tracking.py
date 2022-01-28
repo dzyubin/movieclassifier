@@ -59,8 +59,8 @@ def process_video(filename):
   # Save tracked video
   dim = frames_tracked[0].size
   # fourcc = cv2.VideoWriter_fourcc(*'FMP4')
-  fourcc = cv2.VideoWriter_fourcc(*'H264')
-  # fourcc = cv2.VideoWriter_fourcc(*'avc1')
+  # fourcc = cv2.VideoWriter_fourcc(*'H264')
+  fourcc = cv2.VideoWriter_fourcc(*'avc1')
   # fourcc = cv2.VideoWriter_fourcc(*"mp4v")
   video_tracked = cv2.VideoWriter(f'{static_files_path}/tracked/{filename}_tracked.mp4', fourcc, 25.0, dim)
   for frame in frames_tracked:
