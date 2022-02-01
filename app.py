@@ -8,6 +8,13 @@ import sqlite3
 import os
 import numpy as np
 
+import sys
+print("Python version")
+print (sys.version)
+print("Version info.")
+print (sys.version_info)
+
+
 SECRET_KEY = os.urandom(32)
 
 import question_answering
