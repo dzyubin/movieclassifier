@@ -40,7 +40,7 @@ def process_video(filename):
   # iterate through each frame, detect faces, and draw their bounding boxes on the video frames.
   frames_tracked = []
   for i, frame in enumerate(frames):
-    if i > 10:
+    if i > 40:
       continue
     print('\rTracking frame: {}'.format(i + 1), end='')
     
