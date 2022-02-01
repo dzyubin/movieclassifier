@@ -17,7 +17,7 @@ print (sys.version_info)
 
 SECRET_KEY = os.urandom(32)
 
-import question_answering
+# import question_answering
 from face_tracking import process_video
 
 # import HashingVectorizer from local dir
