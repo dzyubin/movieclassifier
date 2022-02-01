@@ -8,16 +8,9 @@ import sqlite3
 import os
 import numpy as np
 
-import os
-# import sys
 SECRET_KEY = os.urandom(32)
 
-# print("Python version")
-# print (sys.version)
-# print("Version info.")
-# print (sys.version_info)
-
-import face_tracking
+import question_answering
 from face_tracking import process_video
 
 # import HashingVectorizer from local dir
