@@ -6,6 +6,8 @@ import sys
 from PIL import Image, ImageDraw
 import os
 
+print(torch.__version__)
+
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 print('Running on device: {}'.format(device))
 
