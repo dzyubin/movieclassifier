@@ -1,3 +1,4 @@
+import torch
 from transformers import pipeline
 
 nlp_qa = pipeline('question-answering')
