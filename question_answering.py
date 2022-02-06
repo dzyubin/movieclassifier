@@ -1,6 +1,6 @@
-import torch
+import tensorflow
 from transformers import pipeline
-
+print(tensorflow.__version__)
 nlp_qa = pipeline('question-answering')
 
 # sequence = """ The traffic began to slow down on Pioneer Boulevard in Los Angeles, making it difficult
