@@ -18,7 +18,7 @@ print (sys.version_info)
 SECRET_KEY = os.urandom(32)
 
 import question_answering
-from question_answering import question_answering_route
+from question_answering import question_answering_route, answer_question
 
 from face_tracking import process_video
 
@@ -124,6 +124,10 @@ def face_tracking():
 @app.route('/question-answering', methods=['GET', 'POST'])
 def question_answering():
 	return question_answering_route()
+
+@app.route('/answer', methods=['GET', 'POST'])
+def answer():
+	return answer_question()
 
 # @app.route('/face-tracking-results', methods=['GET', 'POST'])
 # def face_tracking_results():

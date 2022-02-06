@@ -3,6 +3,7 @@
 	<head>
 		<title>Question Answering</title>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 		<script src="{{url_for('static', filename='script.js')}}"></script>
 	</head>
@@ -15,64 +16,32 @@
 				<a href="/" class="btn btn-primary">Movie review classification</a>
 				<a href="/face-tracking" class="btn btn-primary">Face Tracking</a>
 			</nav>
-			<div class="row">
+			<div class="row" id="tools">
 				<div class="col-12">
-					<!-- <a href="https://github.com/timesler/facenet-pytorch" target="_blank"><span class="badge badge-secondary">Facenet Pytorch</span></a> -->
-					<a href="" target="_blank"><span class="badge badge-secondary">transformers</span></a>
+					<a href="https://huggingface.co/tasks/question-answering" target="_blank"><span class="badge badge-secondary" title="HuggingFace question answering">
+                        <img src="https://aws1.discourse-cdn.com/standard14/uploads/hellohellohello/original/1X/67a2c0590affeba7880ebeb46a115d863972d8ba.png" alt="HuggingFace question answering">
+                    </span></a>
 				</div>
 			</div>
 			<hr>
-			<h2 style="float: left;">Choose a video:</h2>
+			<h2 class="" style="float: left;">Question Answering</h2>
+            <br>
+            <hr>
 			{% from "_formhelpers.html" import render_field %}
-			<form method=post enctype="multipart/form-data">
-				<dl>
-					<!-- <a href="{{ url_for('static', filename='video_tracked.mp4') }}">link</a> -->
-					<!-- <input type="file" name="video" id="video" /> -->
-					<!-- <br> -->
-					<input id='submitBtn' class="btn btn-primary" type="submit" />
-					<div class="spinner-grow text-primary" role="status">
-						<span class="sr-only">Loading...</span>
-					</div>
-				</dl>
-				<hr>
-				<div class="row">
-					<div class="col-6">
-						<h5>Uploaded Videos</h5>
-						<ul>
-							{% for filename in untracked_dir_paths %}
-								<li><a href='{{filename}}'>{{filename}}</a></li>
-							{% endfor %}
-						</ul>
-					</div>
-					<div class="col-6">
-						<h5>Videos with faces tracked</h5>
-						<ul>
-							{% for filename in tracked_dir_paths %}
-								<li><a href='{{filename}}'>{{filename}}</a></li>
-							{% endfor %}
-						</ul>
-					</div>
-				</div>
-				<hr>
+			<form method="post" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <label for="text">Text: </label>{{ form.text(class_='form-control') }}
+                <label for="question">Your question: </label>{{ form.question(class_='form-control') }}
+                <button id='get-answer-btn' class="btn btn-primary" type="button">Get Answer</button>
+                <div class="spinner-grow text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <hr>
 				<div class="row">
 					<div class="col-12">
-						<ul>
-							<li>
-								Choose a video with people in it and click <code>Submit</code><br>
-								NOTE: It must be in <code>mp4</code> format (<a href="https://cloudconvert.com/mp4-converter" target="_blank">video files converter</a>)
-							</li>
-							<li>After model finished processing links for uploaded video and video with faces tracked 
-								are gonna be added to respective columns
-							</li>
-							<li>
-								If video isn't playing in the browser right click and choose <code>Save link as...</code> to download it
-							</li>
-						</ul>
+						<h3>Answer: <span id='answer'>N/A</span>, Score: <span id="score">N/A</span></h3>
 					</div>
 				</div>
-				<!-- <div>
-					<input class="btn btn-primary" type=submit value='Submit review' name='submit_btn'>
-				</div> -->
 			</form>
 		</div>
 	</body>

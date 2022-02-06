@@ -16,3 +16,16 @@ div.spinner-grow {
 	vertical-align: middle;
 	display: none;
 }
+
+#tools img {
+	height: 50px;
+}
+
+@keyframes pulse {
+	0%, 100% {
+	  background-color: red;
+	}
+	50% {
+	  background-color: orange;
+	}
+}
