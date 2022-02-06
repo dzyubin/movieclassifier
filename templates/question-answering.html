@@ -31,7 +31,7 @@
 			<form method="post" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
                 <label for="text">Text: </label>{{ form.text(class_='form-control') }}
-                <label for="question">Your question: </label>{{ form.question(class_='form-control') }}
+                <label for="question">Question: </label>{{ form.question(class_='form-control') }}
                 <button id='get-answer-btn' class="btn btn-primary" type="button">Get Answer</button>
                 <div class="spinner-grow text-primary" role="status">
                     <span class="sr-only">Loading...</span>
