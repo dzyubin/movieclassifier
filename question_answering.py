@@ -1,6 +1,5 @@
-import tensorflow
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 from transformers import pipeline
-print(tensorflow.__version__)
 nlp_qa = pipeline('question-answering')
 
 # sequence = """ The traffic began to slow down on Pioneer Boulevard in Los Angeles, making it difficult
@@ -13,3 +12,6 @@ sequence = "The traffic began to slow down on Pioneer Boulevard in Los Angeles, 
 # question = 'Where is Pioneer Boulevard ?'
 question = 'What is playing?'
 print(nlp_qa(context=sequence, question=question))
+
+def question_answering_route():
+    return render_template('question-answering.html')

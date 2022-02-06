@@ -18,6 +18,8 @@ print (sys.version_info)
 SECRET_KEY = os.urandom(32)
 
 import question_answering
+from question_answering import question_answering_route
+
 from face_tracking import process_video
 
 # import HashingVectorizer from local dir
@@ -118,6 +120,10 @@ def face_tracking():
 		return redirect(url_for('face_tracking', form=form, tracked_dir_paths=tracked_dir_paths, untracked_dir_paths=untracked_dir_paths))
 	
 	return render_template('face-tracking.html', form=form, tracked_dir_paths=tracked_dir_paths, untracked_dir_paths=untracked_dir_paths)
+
+@app.route('/question-answering', methods=['GET', 'POST'])
+def question_answering():
+	return question_answering_route()
 
 # @app.route('/face-tracking-results', methods=['GET', 'POST'])
 # def face_tracking_results():
