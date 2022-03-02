@@ -10,10 +10,10 @@
 	<body style="background: url(https://blog.dormakaba.com/tachyon/2020/04/dormakaba-Blog-Post-pictures-_-1024-x-683-83.jpg?resize=1024%2C683&zoom=1);">
 		<div class="container" style="background: white; margin-top: 2rem; padding: 1rem;">
 			<nav style="border-bottom: 1px solid; padding-bottom: .5rem; margin-bottom: 1rem;">
-				<a href="https://ml-deploy-naive-bayes.herokuapp.com/" class="btn btn-primary">Topic prediction</a>
-				<a href="https://ml-deploy-naive-bayes.herokuapp.com/word2vec" class="btn btn-primary">word2vec</a>
 				<a href="/" class="btn btn-primary">Movie review classification</a>
 				<a href="/question-answering" class="btn btn-primary">Question Answering</a>
+				<a href="https://ml-deploy-naive-bayes.herokuapp.com/word2vec"><span class="badge"style="float: right;">word2vec</span></a>
+				<a href="https://ml-deploy-naive-bayes.herokuapp.com/"><spna class="badge"style="float: right;">Topic prediction</spna></a>
 			</nav>
 			<div class="row">
 				<div class="col-12">
@@ -21,7 +21,9 @@
 				</div>
 			</div>
 			<hr>
-			<h2 style="float: left;">Choose a video:</h2>
+			<h2>Face Tracking</h2>
+			<hr>
+			<h4 style="float: left;">Choose a video:</h4>
 			{% from "_formhelpers.html" import render_field %}
 			<form method=post enctype="multipart/form-data">
 				<dl>
@@ -60,10 +62,10 @@
 						<ul>
 							<li>
 								Choose a video with people in it and click <code>Submit</code><br>
-								NOTE: It must be in <code>mp4</code> format (<a href="https://cloudconvert.com/mp4-converter" target="_blank">video files converter</a>)
+								<strong>NOTE</strong>: It must be in <code>mp4</code> format (<a href="https://cloudconvert.com/mp4-converter" target="_blank">video files converter</a>)
 							</li>
-							<li>After model finished processing links for uploaded video and video with faces tracked 
-								are gonna be added to respective columns
+							<li>After model processing is finished links for uploaded video and video with faces tracked 
+								will be added to respective columns
 							</li>
 							<li>
 								If video isn't playing in the browser right click and choose <code>Save link as...</code> to download it

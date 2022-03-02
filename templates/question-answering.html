@@ -8,13 +8,13 @@
 		<script src="{{url_for('static', filename='script.js')}}"></script>
 	</head>
 	<body>
-	<body style="background: url(https://blog.dormakaba.com/tachyon/2020/04/dormakaba-Blog-Post-pictures-_-1024-x-683-83.jpg?resize=1024%2C683&zoom=1);">
+	<body style="background: url(https://i.morioh.com/e9b422a0c8.png);">
 		<div class="container" style="background: white; margin-top: 2rem; padding: 1rem;">
 			<nav style="border-bottom: 1px solid; padding-bottom: .5rem; margin-bottom: 1rem;">
-				<a href="https://ml-deploy-naive-bayes.herokuapp.com/" class="btn btn-primary">Topic prediction</a>
-				<a href="https://ml-deploy-naive-bayes.herokuapp.com/word2vec" class="btn btn-primary">word2vec</a>
-				<a href="/" class="btn btn-primary">Movie review classification</a>
 				<a href="/face-tracking" class="btn btn-primary">Face Tracking</a>
+				<a href="/" class="btn btn-primary">Movie review classification</a>
+				<a href="https://ml-deploy-naive-bayes.herokuapp.com/" style="float: right;"><span class="badge">Topic prediction</span></a>
+				<a href="https://ml-deploy-naive-bayes.herokuapp.com/word2vec" style="float: right;"><span class="badge">word2vec</span></a>
 			</nav>
 			<div class="row" id="tools">
 				<div class="col-12">
@@ -39,7 +39,11 @@
                 <hr>
 				<div class="row">
 					<div class="col-12">
-						<h3>Answer: <span id='answer'>N/A</span>, Score: <span id="score">N/A</span></h3>
+						<h3>
+                            Answer: <span id='answer'>N/A</span>
+                            <br>
+                            Score: <span id="score">N/A</span>
+                        </h3>
 					</div>
 				</div>
 			</form>

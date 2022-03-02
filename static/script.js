@@ -23,6 +23,9 @@ function startSpinner() {
         spinner.style.display = 'inline-block'
         answerQuestionBtn.innerHTML = 'Looking for answer...'
 
+        answer.style.animation = 'none'
+        score.style.animation = 'none'
+
         fetch(`/answer?text="${text}"&question="${question}"`)
             .then(res => res.json().then(res1 => {
                 answer.innerHTML = res1.answer
