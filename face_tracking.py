@@ -19,11 +19,11 @@ def process_video(filename):
   # since MTCNN is a collection of neural nets and other code, the device must be passed in the following way to enable copying of objects when needed internally.
   mtcnn = MTCNN(keep_all=True, device=device)
 
-  emotion_model = load_model('model.h5')
-  
-  # root_dir = os.getcwd()
-  # if (os.path.isdir(f'{os.getcwd()}/movieclassifier_new')):
-  #   root_dir = f'{os.getcwd()}/movieclassifier_new'
+  root_dir = os.getcwd()
+  if (os.path.isdir(f'{os.getcwd()}/movieclassifier_new')):
+    root_dir = f'{os.getcwd()}/movieclassifier_new'
+
+  emotion_model = load_model(f'{root_dir}/model.h5')
 
   # static_files_path = f'{root_dir}/static'
   # filename, file_extension = os.path.splitext(filename)
