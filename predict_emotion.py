@@ -32,6 +32,7 @@ def emotion_analysis(emotions):
   plt.ylabel('percentage')
   plt.title('emotion')
 
+  print('y_pos')
   print(y_pos)
     
   # plt.show()
