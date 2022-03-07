@@ -10,11 +10,12 @@ if (os.path.isdir(f'{os.getcwd()}/movieclassifier_new')):
 
 emotion_model = load_model(f'{root_dir}/model.h5')
 
-def predict_emotion(photo):
+def predict_emotion(file):
   print('sdf')
   # transform = transforms.ToTensor()
   # x = transform(photo)
-  x = image.img_to_array(photo)
+  img = image.load_img(file, color_mode="grayscale", target_size=(48, 48))
+  x = image.img_to_array(img)
 
 #   x = np.expand_dims(x, axis = 0)
   x /= 255
