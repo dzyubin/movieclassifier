@@ -7,3 +7,5 @@ uploads/*.*
 
 static/tracked/*.mp4
 static/untracked/*.mp4
+
+*.jpg

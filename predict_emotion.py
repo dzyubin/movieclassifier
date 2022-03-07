@@ -31,6 +31,8 @@ def emotion_analysis(emotions):
   plt.xticks(y_pos, objects)
   plt.ylabel('percentage')
   plt.title('emotion')
+
+  print(y_pos)
     
   # plt.show()
   plt.savefig('foo.png')
