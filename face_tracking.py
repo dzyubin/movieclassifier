@@ -6,6 +6,11 @@ import sys
 from PIL import Image, ImageDraw
 import os
 
+from tensorflow.keras.preprocessing import image
+# import torchvision.transforms as transforms
+# from keras.models import load_model
+# emotion_model = load_model('model.h5')
+
 print(torch.__version__)
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
@@ -40,19 +45,30 @@ def process_video(filename):
   # iterate through each frame, detect faces, and draw their bounding boxes on the video frames.
   frames_tracked = []
   for i, frame in enumerate(frames):
-    if i > 40:
+    # if i < 35 or i > 70:
+    if i < 35 or i > 40:
       continue
     print('\rTracking frame: {}'.format(i + 1), end='')
+    # if i < 10:
+      # print(frame)
     
     # Detect faces
     boxes, _ = mtcnn.detect(frame)
+    # if i < 1:
+    #   frame.save('frame.jpg')
+    #   print(boxes)
     
     # Draw faces
     frame_draw = frame.copy()
     draw = ImageDraw.Draw(frame_draw)
     if boxes is not None:
-      for box in boxes:
+      for j, box in enumerate(boxes):
+        print(box.tolist())
         draw.rectangle(box.tolist(), outline=(255, 0, 0), width=6)
+        cropped = frame.crop(box.tolist())
+        predict_emotion(cropped)
+        # cropped.save(f"cropped_{i}-{j}.jpg")
+        print(cropped)
     
     # Add to frame list
     frames_tracked.append(frame_draw.resize((640, 360), Image.BILINEAR))
@@ -71,3 +87,14 @@ def process_video(filename):
     print(frame)
     video_tracked.write(cv2.cvtColor(np.array(frame), cv2.COLOR_RGB2BGR))
   video_tracked.release()
+
+def predict_emotion(photo):
+  print('sdf')
+  # transform = transforms.ToTensor()
+  # x = transform(photo)
+  # x = image.img_to_array(photo)
+
+  # x = np.expand_dims(x, axis = 0)
+  # x /= 255
+  # print(x)
+  # print(x.shape)
