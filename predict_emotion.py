@@ -16,8 +16,9 @@ def predict_emotion(file):
   # x = transform(photo)
   img = image.load_img(file, color_mode="grayscale", target_size=(48, 48))
   x = image.img_to_array(img)
+  print(x)
 
-  x = np.expand_dims(x, axis = 0)
+#   x = np.expand_dims(x, axis = 0)
   x /= 255
   print(x)
   print(x.shape)
