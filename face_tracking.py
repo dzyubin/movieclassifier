@@ -67,7 +67,7 @@ def process_video(filename):
         draw.rectangle(box.tolist(), outline=(255, 0, 0), width=6)
         cropped = frame.crop(box.tolist())
         predict_emotion(cropped)
-        # cropped.save(f"cropped_{i}-{j}.jpg")
+        cropped.save(f"cropped_{i}-{j}.jpg")
         print(cropped)
     
     # Add to frame list
