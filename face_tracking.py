@@ -92,9 +92,9 @@ def predict_emotion(photo):
   print('sdf')
   # transform = transforms.ToTensor()
   # x = transform(photo)
-  # x = image.img_to_array(photo)
+  x = image.img_to_array(photo)
 
-  # x = np.expand_dims(x, axis = 0)
-  # x /= 255
-  # print(x)
-  # print(x.shape)
+  x = np.expand_dims(x, axis = 0)
+  x /= 255
+  print(x)
+  print(x.shape)
