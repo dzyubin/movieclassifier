@@ -18,7 +18,7 @@ def predict_emotion(file):
   x = image.img_to_array(img)
   print(x)
 
-#   x = np.expand_dims(x, axis = 0)
+  x = np.expand_dims(x, axis = 0)
   x /= 255
   print(x)
   print(x.shape)
@@ -36,6 +36,7 @@ def emotion_analysis(emotions):
 
   print('y_pos')
   print(y_pos)
+  print(emotions)
     
   # plt.show()
   plt.savefig('foo.png')

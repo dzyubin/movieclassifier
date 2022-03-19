@@ -46,7 +46,7 @@ def process_video(filename):
   frames_tracked = []
   for i, frame in enumerate(frames):
     # if i < 35 or i > 70:
-    if i < 35 or i > 40:
+    if i < 55 or i > 60:
       continue
     print('\rTracking frame: {}'.format(i + 1), end='')
     # if i < 10:
