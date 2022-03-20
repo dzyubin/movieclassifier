@@ -11,19 +11,18 @@ if (os.path.isdir(f'{os.getcwd()}/movieclassifier_new')):
 emotion_model = load_model(f'{root_dir}/model.h5')
 
 def predict_emotion(file):
-  print('sdf')
   # transform = transforms.ToTensor()
   # x = transform(photo)
   img = image.load_img(file, color_mode="grayscale", target_size=(48, 48))
   x = image.img_to_array(img)
-  print(x)
+  # print(x)
 
   x = np.expand_dims(x, axis = 0)
   x /= 255
-  print(x)
+  # print(x)
   print(x.shape)
   custom = emotion_model.predict(x)
-  emotion_analysis(custom[0])
+  return emotion_analysis(custom[0])
 
 def emotion_analysis(emotions):
   objects = ('angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral')
@@ -35,8 +34,7 @@ def emotion_analysis(emotions):
   plt.title('emotion')
 
   print('y_pos')
-  print(y_pos)
-  print(emotions)
-    
+  print(objects[np.argmax(emotions)])
   # plt.show()
-  plt.savefig('foo.png')
+  # plt.savefig(f'foo{np.random.randint(0, 10000)}.png')
+  return objects[np.argmax(emotions)]

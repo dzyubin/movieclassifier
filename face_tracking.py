@@ -3,15 +3,9 @@ import mmcv, cv2
 import torch
 import numpy as np
 import sys
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 import os
 from predict_emotion import predict_emotion
-
-# from tensorflow.keras.preprocessing import image
-# import torchvision.transforms as transforms
-# from tensorflow.keras.models import load_model
-
-print(torch.__version__)
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 print('Running on device: {}'.format(device))
@@ -45,33 +39,42 @@ def process_video(filename):
   # iterate through each frame, detect faces, and draw their bounding boxes on the video frames.
   frames_tracked = []
   for i, frame in enumerate(frames):
-    # if i < 35 or i > 70:
-    if i < 55 or i > 60:
+    if i < 35 or i > 40:
       continue
     print('\rTracking frame: {}'.format(i + 1), end='')
-    # if i < 10:
-      # print(frame)
     
     # Detect faces
     boxes, _ = mtcnn.detect(frame)
-    # if i < 1:
-    #   frame.save('frame.jpg')
-    #   print(boxes)
     
     # Draw faces
     frame_draw = frame.copy()
     draw = ImageDraw.Draw(frame_draw)
     if boxes is not None:
       for j, box in enumerate(boxes):
-        print(box.tolist())
-        draw.rectangle(box.tolist(), outline=(255, 0, 0), width=6)
-        cropped = frame.crop(box.tolist())
-        cropped.save(f"cropped_{i}-{j}.jpg")
-        predict_emotion('cropped_35-0.jpg')
-        print(cropped)
-    
+        face_bounding_box = box.tolist()
+        draw.rectangle(face_bounding_box, outline=(255, 0, 0), width=6)
+
+        face_img_filename = f"cropped_{i}-{j}.jpg"
+        face_img = frame.crop(face_bounding_box)
+        face_img.save(face_img_filename)
+        emotion = predict_emotion(face_img_filename)
+
+        # TODO: delete image !!!!!!!!!!!!!!!!!!!!!
+
+        font_size = 45
+        font = ImageFont.truetype("arial.ttf", font_size)
+        draw.text((
+          face_bounding_box[0] + face_bounding_box[2] / 2,
+          face_bounding_box[1] + face_bounding_box[3] / 2),
+          emotion,
+          'lime',
+          font=font
+        )
+
     # Add to frame list
-    frames_tracked.append(frame_draw.resize((640, 360), Image.BILINEAR))
+    # TODO: set width/height dynamically
+    # frames_tracked.append(frame_draw.resize((640, 360), Image.BILINEAR))
+    frames_tracked.append(frame_draw.resize((640, 960), Image.BILINEAR))
     print('\nDone')
 
   # Save tracked video
@@ -84,6 +87,5 @@ def process_video(filename):
   # fourcc = cv2.VideoWriter_fourcc(*'PIM1')
   video_tracked = cv2.VideoWriter(f'{static_files_path}/tracked/{filename}_tracked.mp4', fourcc, 25.0, dim)
   for frame in frames_tracked:
-    print(frame)
     video_tracked.write(cv2.cvtColor(np.array(frame), cv2.COLOR_RGB2BGR))
   video_tracked.release()
