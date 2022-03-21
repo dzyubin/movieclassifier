@@ -49,6 +49,7 @@ def process_video(filename):
     # Draw faces
     frame_draw = frame.copy()
     draw = ImageDraw.Draw(frame_draw)
+    print(frame)
     print(boxes)
     if boxes is not None:
       for j, box in enumerate(boxes):
