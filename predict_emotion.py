@@ -9,6 +9,7 @@ if (os.path.isdir(f'{os.getcwd()}/movieclassifier_new')):
     root_dir = f'{os.getcwd()}/movieclassifier_new'
 
 emotion_model = load_model(f'{root_dir}/model.h5')
+print(emotion_model)
 
 def predict_emotion(file):
   # transform = transforms.ToTensor()
@@ -22,6 +23,7 @@ def predict_emotion(file):
   # print(x)
   print(x.shape)
   custom = emotion_model.predict(x)
+  print('after emotion prediction')
   return emotion_analysis(custom[0])
 
 def emotion_analysis(emotions):
