@@ -51,6 +51,7 @@ def process_video(filename):
     draw = ImageDraw.Draw(frame_draw)
     if boxes is not None:
       for j, box in enumerate(boxes):
+        print(box)
         face_bounding_box = box.tolist()
         draw.rectangle(face_bounding_box, outline=(255, 0, 0), width=6)
 
