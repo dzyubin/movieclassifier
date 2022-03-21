@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 root_dir = os.getcwd()
 if (os.path.isdir(f'{os.getcwd()}/movieclassifier_new')):
     root_dir = f'{os.getcwd()}/movieclassifier_new'
-
+print('before model instantiation')
 emotion_model = load_model(f'{root_dir}/model.h5')
 print(emotion_model)
 
