@@ -22,7 +22,10 @@ def predict_emotion(file):
   x /= 255
   # print(x)
   print(x.shape)
-  # custom = emotion_model.predict(x)
+  try:
+    custom = emotion_model.predict(x)
+  except:
+    print('can not predict')
   print('after emotion prediction')
   # return emotion_analysis(custom[0])
 
