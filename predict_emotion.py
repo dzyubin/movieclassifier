@@ -23,6 +23,7 @@ def predict_emotion(file):
   # print(x)
   print(x.shape)
   try:
+    print('predicting...')
     custom = emotion_model.predict(x)
   except:
     print('can not predict')
