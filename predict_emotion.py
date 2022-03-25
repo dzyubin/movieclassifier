@@ -22,9 +22,9 @@ def predict_emotion(file):
   x /= 255
   # print(x)
   print(x.shape)
-  custom = emotion_model.predict(x)
+  # custom = emotion_model.predict(x)
   print('after emotion prediction')
-  return emotion_analysis(custom[0])
+  # return emotion_analysis(custom[0])
 
 def emotion_analysis(emotions):
   objects = ('angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral')
