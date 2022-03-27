@@ -9,6 +9,7 @@ if (os.path.isdir(f'{os.getcwd()}/movieclassifier_new')):
     root_dir = f'{os.getcwd()}/movieclassifier_new'
 print('before model instantiation')
 emotion_model = load_model(f'{root_dir}/model.h5')
+print('emotion_model ##########################################')
 print(emotion_model)
 
 def predict_emotion(file):
@@ -25,10 +26,11 @@ def predict_emotion(file):
   try:
     print('predicting...')
     custom = emotion_model.predict(x)
+    print(custom)
   except:
     print('can not predict')
   print('after emotion prediction')
-  # return emotion_analysis(custom[0])
+  return emotion_analysis(custom[0])
 
 def emotion_analysis(emotions):
   objects = ('angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral')

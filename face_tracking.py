@@ -5,10 +5,19 @@ import numpy as np
 import sys
 from PIL import Image, ImageDraw, ImageFont
 import os
-from predict_emotion import predict_emotion
+# from predict_emotion import predict_emotion
+from predict_emotion_deepface import predict_emotion_deepface
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 print('Running on device: {}'.format(device))
+
+
+
+
+emotion = predict_emotion_deepface('angry_download.jpg')
+
+
+
 
 def process_video(filename):
   # since MTCNN is a collection of neural nets and other code, the device must be passed in the following way to enable copying of objects when needed internally.
