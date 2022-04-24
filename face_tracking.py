@@ -13,8 +13,10 @@ print('Running on device: {}'.format(device))
 
 
 
-
-emotion = predict_emotion_deepface('angry_download.jpg')
+root_dir = os.getcwd()
+if (os.path.isdir(f'{os.getcwd()}/movieclassifier_new')):
+  root_dir = f'{os.getcwd()}/movieclassifier_new'
+emotion = predict_emotion_deepface(f'{root_dir}/angry_download.jpg')
 
 
 
