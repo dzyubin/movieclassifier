@@ -59,7 +59,7 @@ def process_video(filename):
         face_bounding_box = box.tolist()
         draw.rectangle(face_bounding_box, outline=(255, 0, 0), width=6)
 
-        face_img_filename = f"cropped_{i}-{j}.jpg"
+        face_img_filename = f"{root_dir}/cropped_{i}-{j}.jpg"
         face_img = frame.crop(face_bounding_box)
         face_img.save(face_img_filename)
         emotion_predictions = predict_emotion_deepface(face_img_filename)
