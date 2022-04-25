@@ -11,16 +11,6 @@ from predict_emotion_deepface import predict_emotion_deepface
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 print('Running on device: {}'.format(device))
 
-
-
-root_dir = os.getcwd()
-if (os.path.isdir(f'{os.getcwd()}/movieclassifier_new')):
-  root_dir = f'{os.getcwd()}/movieclassifier_new'
-emotion = predict_emotion_deepface(f'{root_dir}/angry_download.jpg')
-
-
-
-
 def process_video(filename):
   # since MTCNN is a collection of neural nets and other code, the device must be passed in the following way to enable copying of objects when needed internally.
   mtcnn = MTCNN(keep_all=True, device=device)
@@ -51,7 +41,7 @@ def process_video(filename):
   frames_tracked = []
   print(frames)
   for i, frame in enumerate(frames):
-    if i < 35 or i > 35:
+    if i < 5 or i > 175:
       continue
     print('\rTracking frame: {}'.format(i + 1), end='')
     
@@ -72,7 +62,8 @@ def process_video(filename):
         face_img_filename = f"cropped_{i}-{j}.jpg"
         face_img = frame.crop(face_bounding_box)
         face_img.save(face_img_filename)
-        emotion = predict_emotion(face_img_filename)
+        emotion_predictions = predict_emotion_deepface(face_img_filename)
+        print(emotion_predictions)
 
         # TODO: delete image !!!!!!!!!!!!!!!!!!!!!
 
@@ -81,7 +72,7 @@ def process_video(filename):
         draw.text((
           face_bounding_box[0] + face_bounding_box[2] / 2,
           face_bounding_box[1] + face_bounding_box[3] / 2),
-          emotion,
+          emotion_predictions['dominant_emotion'],
           'lime',
           font=font
         )
@@ -104,3 +95,27 @@ def process_video(filename):
   for frame in frames_tracked:
     video_tracked.write(cv2.cvtColor(np.array(frame), cv2.COLOR_RGB2BGR))
   video_tracked.release()
+
+def draw_bounding_box():
+  print(box)
+  face_bounding_box = box.tolist()
+  draw.rectangle(face_bounding_box, outline=(255, 0, 0), width=6)
+
+  face_img_filename = f"cropped_{i}-{j}.jpg"
+  face_img = frame.crop(face_bounding_box)
+  face_img.save(face_img_filename)
+  # emotion_predictions = predict_emotion_deepface(f'{root_dir}/angry_download.jpg')
+  emotion_predictions = predict_emotion_deepface(face_img_filename)
+  print(emotion_predictions)
+
+  # TODO: delete image !!!!!!!!!!!!!!!!!!!!!
+
+  font_size = 45
+  font = ImageFont.truetype("arial.ttf", font_size)
+  draw.text((
+    face_bounding_box[0] + face_bounding_box[2] / 2,
+    face_bounding_box[1] + face_bounding_box[3] / 2),
+    emotion_predictions['dominant_emotion'],
+    'lime',
+    font=font
+  )
