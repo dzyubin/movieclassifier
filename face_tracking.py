@@ -62,7 +62,8 @@ def process_video(filename):
         face_img_filename = f"{root_dir}/cropped_{i}-{j}.jpg"
         face_img = frame.crop(face_bounding_box)
         face_img.save(face_img_filename)
-        emotion_predictions = predict_emotion_deepface(face_img_filename)
+        # emotion_predictions = predict_emotion_deepface(face_img_filename)
+        emotion_predictions = predict_emotion_deepface(f'{root_dir}/angry_download.jpg')
         print(emotion_predictions)
 
         # TODO: delete image !!!!!!!!!!!!!!!!!!!!!
