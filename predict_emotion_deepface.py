@@ -9,6 +9,9 @@ def predict_emotion_deepface(file):
   # img = image.load_img(file)
   img = cv2.imread(file)
   print(img)
-  predictions = DeepFace.analyze(img, enforce_detection=False)
+  try:
+    predictions = DeepFace.analyze(img, enforce_detection=False)
+  except Exception as inst:
+    print(inst)
 
   return predictions
