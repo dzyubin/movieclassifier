@@ -41,8 +41,8 @@ def process_video(filename):
   frames_tracked = []
   print(frames)
   for i, frame in enumerate(frames):
-    if i < 5 or i > 5:
-      continue
+    # if i < 5 or i > 5:
+      # continue
     print('\rTracking frame: {}'.format(i + 1), end='')
     
     # Detect faces
@@ -72,6 +72,7 @@ def process_video(filename):
         # font = ImageFont.truetype("arial.ttf", font_size)
         # font = ImageFont.load_default(font_size)
         font = ImageFont.load_default()
+        # TODO: increase font size
         draw.text((
           face_bounding_box[0] + face_bounding_box[2] / 2,
           face_bounding_box[1] + face_bounding_box[3] / 2),
