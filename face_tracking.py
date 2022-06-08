@@ -69,7 +69,8 @@ def process_video(filename):
         # TODO: delete image !!!!!!!!!!!!!!!!!!!!!
 
         font_size = 85
-        font = ImageFont.truetype("static/arial.ttf", font_size)
+        # font = ImageFont.truetype("static/arial.ttf", font_size)
+        font = ImageFont.truetype("static/arial.ttf")
         # font = ImageFont.load_default(font_size)
         # font = ImageFont.load_default()
         # TODO: increase font size
