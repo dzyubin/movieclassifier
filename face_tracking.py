@@ -41,8 +41,8 @@ def process_video(filename):
   frames_tracked = []
   print(frames)
   for i, frame in enumerate(frames):
-    if i < 5 or i > 35:
-      continue
+    # if i < 5 or i > 35:
+      # continue
     print('\rTracking frame: {}'.format(i + 1), end='')
     
     # Detect faces
@@ -66,9 +66,8 @@ def process_video(filename):
         # emotion_predictions = predict_emotion_deepface(f'{root_dir}/angry_download.jpg')
         print(emotion_predictions)
 
-        # TODO: delete image !!!!!!!!!!!!!!!!!!!!!
         print(face_img_filename)
-        # face_img.close()
+
         try:
           os.remove(face_img_filename)
         except:
