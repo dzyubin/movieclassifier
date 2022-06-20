@@ -41,8 +41,8 @@ def process_video(filename):
   frames_tracked = []
   print(frames)
   for i, frame in enumerate(frames):
-    # if i < 5 or i > 5:
-      # continue
+    if i < 5 or i > 35:
+      continue
     print('\rTracking frame: {}'.format(i + 1), end='')
     
     # Detect faces
@@ -59,14 +59,20 @@ def process_video(filename):
         face_bounding_box = box.tolist()
         draw.rectangle(face_bounding_box, outline=(255, 0, 0), width=6)
 
-        face_img_filename = f"{root_dir}/cropped_{i}-{j}.jpg"
+        face_img_filename = f"{root_dir}\cropped_{i}-{j}.jpg"
         face_img = frame.crop(face_bounding_box)
         face_img.save(face_img_filename)
-        # emotion_predictions = predict_emotion_deepface(face_img_filename)
-        emotion_predictions = predict_emotion_deepface(f'{root_dir}/angry_download.jpg')
+        emotion_predictions = predict_emotion_deepface(face_img_filename)
+        # emotion_predictions = predict_emotion_deepface(f'{root_dir}/angry_download.jpg')
         print(emotion_predictions)
 
         # TODO: delete image !!!!!!!!!!!!!!!!!!!!!
+        print(face_img_filename)
+        # face_img.close()
+        try:
+          os.remove(face_img_filename)
+        except:
+          print('Image file doesn\'t exist')
 
         font_size = 45
         # font = ImageFont.truetype("static/arial.ttf", font_size)
