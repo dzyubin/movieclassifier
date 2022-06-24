@@ -24,7 +24,9 @@ def process_video(filename):
 
   #loading a video with some faces in it. The mmcv PyPI package by mmlabs is used to read the video frames (it can be installed with pip install mmcv). Frames are then converted to PIL images
   # movieclassifier_new is the name of the root project directory on the hosting
+  print("before 'video' file is created")
   video = mmcv.VideoReader(f'{static_files_path}/untracked/{filename}{file_extension}')
+  print("before frames array created")
   frames = [Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)) for frame in video]
 
   # from IPython.display import HTML
@@ -39,10 +41,10 @@ def process_video(filename):
 
   # iterate through each frame, detect faces, and draw their bounding boxes on the video frames.
   frames_tracked = []
-  print(frames)
+  # print(frames)
   for i, frame in enumerate(frames):
-    # if i < 5 or i > 35:
-      # continue
+    if i < 5 or i > 6:
+      continue
     print('\rTracking frame: {}'.format(i + 1), end='')
     
     # Detect faces
@@ -51,11 +53,11 @@ def process_video(filename):
     # Draw faces
     frame_draw = frame.copy()
     draw = ImageDraw.Draw(frame_draw)
-    print(frame)
-    print(boxes)
+    # print(frame)
+    # print(boxes)
     if boxes is not None:
       for j, box in enumerate(boxes):
-        print(box)
+        # print(box)
         face_bounding_box = box.tolist()
         draw.rectangle(face_bounding_box, outline=(255, 0, 0), width=6)
 
@@ -106,8 +108,8 @@ def process_video(filename):
     video_tracked.write(cv2.cvtColor(np.array(frame), cv2.COLOR_RGB2BGR))
   video_tracked.release()
 
+# TODO: finish refactoring
 def draw_bounding_box():
-  print(box)
   face_bounding_box = box.tolist()
   draw.rectangle(face_bounding_box, outline=(255, 0, 0), width=6)
 
