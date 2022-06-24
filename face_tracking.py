@@ -43,8 +43,8 @@ def process_video(filename):
   frames_tracked = []
   # print(frames)
   for i, frame in enumerate(frames):
-    if i < 5 or i > 46:
-      continue
+    # if i < 5 or i > 46:
+      # continue
     print('\rTracking frame: {}'.format(i + 1), end='')
     
     # Detect faces
