@@ -11,15 +11,17 @@ from predict_emotion_deepface import predict_emotion_deepface
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 print('Running on device: {}'.format(device))
 
+root_dir = os.getcwd()
+if (os.path.isdir(f'{os.getcwd()}/movieclassifier_new')):
+  root_dir = f'{os.getcwd()}/movieclassifier_new'
+
+static_files_path = f'{root_dir}/static'
+
 def process_video(filename):
-  # since MTCNN is a collection of neural nets and other code, the device must be passed in the following way to enable copying of objects when needed internally.
+  # since MTCNN is a collection of neural nets and other code, the device must be passed in the following way
+  # to enable copying of objects when needed internally.
   mtcnn = MTCNN(keep_all=True, device=device)
   
-  root_dir = os.getcwd()
-  if (os.path.isdir(f'{os.getcwd()}/movieclassifier_new')):
-    root_dir = f'{os.getcwd()}/movieclassifier_new'
-
-  static_files_path = f'{root_dir}/static'
   filename, file_extension = os.path.splitext(filename)
 
   #loading a video with some faces in it. The mmcv PyPI package by mmlabs is used to read the video frames (it can be installed with pip install mmcv). Frames are then converted to PIL images
@@ -44,7 +46,8 @@ def process_video(filename):
   # print(frames)
   for i, frame in enumerate(frames):
     # if i < 5 or i > 46:
-      # continue
+    if i > 46:
+      continue
     print('\rTracking frame: {}'.format(i + 1), end='')
     
     # Detect faces
