@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
-from wtforms import Form, TextAreaField, validators
+from wtforms import Form, TextAreaField, BooleanField, validators
 from werkzeug.utils import secure_filename
 import pickle
 import sqlite3
@@ -97,6 +97,7 @@ def feedback():
 
 class UploadForm(FlaskForm):
     file = FileField()
+    areEmotionsTracked = BooleanField()
 
 @app.route('/face-tracking', methods=['GET', 'POST'])
 def face_tracking():
@@ -115,8 +116,9 @@ def face_tracking():
 		filename = secure_filename(form.file.data.filename)
 		# movieclassifier_new is the name of the root project directory on the hosting
 		form.file.data.save(f'{root_dir}/static/untracked/' + filename)
+		are_emotions_tracked = form.areEmotionsTracked.data
 		
-		process_video(filename=filename)
+		process_video(filename=filename, are_emotions_tracked=are_emotions_tracked)
 		return redirect(url_for('face_tracking', form=form, tracked_dir_paths=tracked_dir_paths, untracked_dir_paths=untracked_dir_paths))
 	
 	return render_template('face-tracking.html', form=form, tracked_dir_paths=tracked_dir_paths, untracked_dir_paths=untracked_dir_paths)

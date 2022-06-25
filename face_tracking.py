@@ -17,7 +17,7 @@ if (os.path.isdir(f'{os.getcwd()}/movieclassifier_new')):
 
 static_files_path = f'{root_dir}/static'
 
-def process_video(filename):
+def process_video(filename, are_emotions_tracked):
   # since MTCNN is a collection of neural nets and other code, the device must be passed in the following way
   # to enable copying of objects when needed internally.
   mtcnn = MTCNN(keep_all=True, device=device)
@@ -45,9 +45,10 @@ def process_video(filename):
   frames_tracked = []
   # print(frames)
   for i, frame in enumerate(frames):
-    # if i < 5 or i > 46:
-    if i > 46:
-      continue
+    if are_emotions_tracked:
+      if i > 16:
+      # if i < 5 or i > 6:
+        continue
     print('\rTracking frame: {}'.format(i + 1), end='')
     
     # Detect faces
@@ -64,33 +65,35 @@ def process_video(filename):
         face_bounding_box = box.tolist()
         draw.rectangle(face_bounding_box, outline=(255, 0, 0), width=6)
 
-        face_img_filename = f"{root_dir}\cropped_{i}-{j}.jpg"
-        face_img = frame.crop(face_bounding_box)
-        face_img.save(face_img_filename)
-        emotion_predictions = predict_emotion_deepface(face_img_filename)
-        # emotion_predictions = predict_emotion_deepface(f'{root_dir}/angry_download.jpg')
-        print(emotion_predictions)
+        # TODO: move this to function
+        if are_emotions_tracked:
+          face_img_filename = f"{root_dir}\cropped_{i}-{j}.jpg"
+          face_img = frame.crop(face_bounding_box)
+          face_img.save(face_img_filename)
+          emotion_predictions = predict_emotion_deepface(face_img_filename)
+          print(emotion_predictions)
 
-        print(face_img_filename)
+          try:
+            os.remove(face_img_filename)
+          except:
+            print('Image file doesn\'t exist')
 
-        try:
-          os.remove(face_img_filename)
-        except:
-          print('Image file doesn\'t exist')
+          draw_emotion_label(draw, face_bounding_box, emotion_predictions['dominant_emotion'])
 
-        font_size = 45
-        # font = ImageFont.truetype("static/arial.ttf", font_size)
-        font = ImageFont.truetype(f"{static_files_path}/arial.ttf", font_size)
-        # font = ImageFont.load_default(font_size)
-        # font = ImageFont.load_default()
-        # TODO: increase font size
-        draw.text((
-          face_bounding_box[0] + face_bounding_box[2] / 2,
-          face_bounding_box[1] + face_bounding_box[3] / 2),
-          emotion_predictions['dominant_emotion'],
-          'lime',
-          font=font
-        )
+        # font_size = 45
+        # # font = ImageFont.truetype("static/arial.ttf", font_size)
+        # font = ImageFont.truetype(f"{static_files_path}/arial.ttf", font_size)
+        # # font = ImageFont.load_default(font_size)
+        # # font = ImageFont.load_default()
+        # # TODO: increase font size
+        # draw.text((
+        #   face_bounding_box[0] + face_bounding_box[2] / 2,
+        #   face_bounding_box[1] + face_bounding_box[3] / 2),
+        #   emotion_predictions['dominant_emotion'],
+        #   'lime',
+        #   font=font
+        # )
+
 
     # Add to frame list
     # TODO: set width/height dynamically
@@ -111,26 +114,45 @@ def process_video(filename):
     video_tracked.write(cv2.cvtColor(np.array(frame), cv2.COLOR_RGB2BGR))
   video_tracked.release()
 
-# TODO: finish refactoring
-def draw_bounding_box():
-  face_bounding_box = box.tolist()
-  draw.rectangle(face_bounding_box, outline=(255, 0, 0), width=6)
-
-  face_img_filename = f"cropped_{i}-{j}.jpg"
-  face_img = frame.crop(face_bounding_box)
-  face_img.save(face_img_filename)
-  # emotion_predictions = predict_emotion_deepface(f'{root_dir}/angry_download.jpg')
-  emotion_predictions = predict_emotion_deepface(face_img_filename)
-  print(emotion_predictions)
-
-  # TODO: delete image !!!!!!!!!!!!!!!!!!!!!
-
+def draw_emotion_label(draw, face_bounding_box, emotion_label):
   font_size = 45
-  font = ImageFont.truetype("arial.ttf", font_size)
+  font = ImageFont.truetype(f"{static_files_path}/arial.ttf", font_size)
+  
+  # TODO: increase font size
   draw.text((
     face_bounding_box[0] + face_bounding_box[2] / 2,
     face_bounding_box[1] + face_bounding_box[3] / 2),
-    emotion_predictions['dominant_emotion'],
+    emotion_label,
     'lime',
     font=font
   )
+
+# this function is probably unnecessary anymore
+# TODO: finish refactoring
+def draw_bounding_boxes(boxes, draw):
+  # draw = ImageDraw.Draw(frame_draw)
+
+  if boxes is not None:
+      for j, box in enumerate(boxes):
+        # print(box)
+        face_bounding_box = box.tolist()
+        draw.rectangle(face_bounding_box, outline=(255, 0, 0), width=6)
+
+        face_img_filename = f"cropped_{i}-{j}.jpg"
+        face_img = frame.crop(face_bounding_box)
+        face_img.save(face_img_filename)
+        # emotion_predictions = predict_emotion_deepface(f'{root_dir}/angry_download.jpg')
+        emotion_predictions = predict_emotion_deepface(face_img_filename)
+        print(emotion_predictions)
+
+        # TODO: delete image !!!!!!!!!!!!!!!!!!!!!
+
+        font_size = 45
+        font = ImageFont.truetype("arial.ttf", font_size)
+        draw.text((
+          face_bounding_box[0] + face_bounding_box[2] / 2,
+          face_bounding_box[1] + face_bounding_box[3] / 2),
+          emotion_predictions['dominant_emotion'],
+          'lime',
+          font=font
+        )
