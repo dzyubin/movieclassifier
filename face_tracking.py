@@ -32,7 +32,7 @@ def process_video(filename, are_emotions_tracked):
     (
       ffmpeg
       .input(untracked_video_file_path)
-      .trim(duration=3)
+      .trim(duration=2)
       # .output(filepath)
       .output(untracked_video_file_path_trimmed)
       .run()
