@@ -4,6 +4,7 @@ facenet_pytorch
 mmcv
 flask_wtf
 sklearn
+ffmpeg
 
 # pytorch==1.4.0? | 1.10?
 # transformers==4.10
@@ -14,3 +15,7 @@ sklearn
 # mmcv==1.4.3
 # flask_wtf==0.14.3
 # sklearn==0.23.2
+# ffmpeg==???
+
+# pytorch=1.10.2 or 1.3.1
+# torch=1.9.0+cu111

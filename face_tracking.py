@@ -1,8 +1,9 @@
 from facenet_pytorch import MTCNN
+import ffmpeg
 import mmcv, cv2
 import torch
 import numpy as np
-import sys
+# import sys
 from PIL import Image, ImageDraw, ImageFont
 import os
 # from predict_emotion import predict_emotion
@@ -23,11 +24,27 @@ def process_video(filename, are_emotions_tracked):
   mtcnn = MTCNN(keep_all=True, device=device)
   
   filename, file_extension = os.path.splitext(filename)
+  untracked_video_file_path = f'{static_files_path}/untracked/{filename}{file_extension}'
+
+  if are_emotions_tracked:
+    # trim_video(untracked_video_file_path)
+    untracked_video_file_path_trimmed = f'{static_files_path}/untracked/{filename + "_trimmed"}{file_extension}'
+    (
+      ffmpeg
+      .input(untracked_video_file_path)
+      .trim(duration=3)
+      # .output(filepath)
+      .output(untracked_video_file_path_trimmed)
+      .run()
+    )
+    untracked_video_file_path = untracked_video_file_path_trimmed
 
   #loading a video with some faces in it. The mmcv PyPI package by mmlabs is used to read the video frames (it can be installed with pip install mmcv). Frames are then converted to PIL images
   # movieclassifier_new is the name of the root project directory on the hosting
   print("before 'video' file is created")
-  video = mmcv.VideoReader(f'{static_files_path}/untracked/{filename}{file_extension}')
+  video = mmcv.VideoReader(untracked_video_file_path)
+  print(len(video))
+  # mmcv.cut_video(f'{static_files_path}/untracked/{filename}{file_extension}', 'clip1.mp4', start=1, end=2, vcodec='h264')
   print("before frames array created")
   frames = [Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)) for frame in video]
 
@@ -43,12 +60,13 @@ def process_video(filename, are_emotions_tracked):
 
   # iterate through each frame, detect faces, and draw their bounding boxes on the video frames.
   frames_tracked = []
-  # print(frames)
+  print('frames count: ', len(frames))
   for i, frame in enumerate(frames):
-    if are_emotions_tracked:
-      if i > 16:
-      # if i < 5 or i > 6:
-        continue
+    # if i > 26:
+    #   continue
+    # if are_emotions_tracked:
+      # if i > 16:
+        # continue
     print('\rTracking frame: {}'.format(i + 1), end='')
     
     # Detect faces
@@ -71,7 +89,7 @@ def process_video(filename, are_emotions_tracked):
           face_img = frame.crop(face_bounding_box)
           face_img.save(face_img_filename)
           emotion_predictions = predict_emotion_deepface(face_img_filename)
-          print(emotion_predictions)
+          # print(emotion_predictions)
 
           try:
             os.remove(face_img_filename)
@@ -113,6 +131,17 @@ def process_video(filename, are_emotions_tracked):
   for frame in frames_tracked:
     video_tracked.write(cv2.cvtColor(np.array(frame), cv2.COLOR_RGB2BGR))
   video_tracked.release()
+
+def trim_video(filepath):
+  (
+    ffmpeg
+    .input(filepath)
+    .trim(duration=3)
+    # .output(filepath)
+    .output(filepath)
+    .run()
+  )
+
 
 def draw_emotion_label(draw, face_bounding_box, emotion_label):
   font_size = 45
