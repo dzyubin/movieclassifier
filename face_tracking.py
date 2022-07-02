@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from facenet_pytorch import MTCNN
 import ffmpeg
 import mmcv, cv2
@@ -62,8 +64,9 @@ def process_video(filename, are_emotions_tracked):
   frames_tracked = []
   print('frames count: ', len(frames))
   for i, frame in enumerate(frames):
-    # if i > 26:
-    #   continue
+    # if i > 30:
+      # continue
+    # pprint(vars(frame))
     # if are_emotions_tracked:
       # if i > 16:
         # continue
@@ -98,39 +101,20 @@ def process_video(filename, are_emotions_tracked):
 
           draw_emotion_label(draw, face_bounding_box, emotion_predictions['dominant_emotion'])
 
-        # font_size = 45
-        # # font = ImageFont.truetype("static/arial.ttf", font_size)
-        # font = ImageFont.truetype(f"{static_files_path}/arial.ttf", font_size)
-        # # font = ImageFont.load_default(font_size)
-        # # font = ImageFont.load_default()
-        # # TODO: increase font size
-        # draw.text((
-        #   face_bounding_box[0] + face_bounding_box[2] / 2,
-        #   face_bounding_box[1] + face_bounding_box[3] / 2),
-        #   emotion_predictions['dominant_emotion'],
-        #   'lime',
-        #   font=font
-        # )
-
-
     # Add to frame list
     # TODO: set width/height dynamically
     # frames_tracked.append(frame_draw.resize((640, 360), Image.BILINEAR))
     frames_tracked.append(frame_draw.resize((640, 960), Image.BILINEAR))
     print('\nDone')
 
-  # Save tracked video
-  dim = frames_tracked[0].size
-  fourcc = cv2.VideoWriter_fourcc(*'FMP4')
-  # fourcc = cv2.VideoWriter_fourcc(*'H264')
-  # fourcc = cv2.VideoWriter_fourcc(*'avc1')
-  # fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-  # fourcc = cv2.VideoWriter_fourcc('M','J','P','G')
-  # fourcc = cv2.VideoWriter_fourcc(*'PIM1')
-  video_tracked = cv2.VideoWriter(f'{static_files_path}/tracked/{filename}_tracked.mp4', fourcc, 25.0, dim)
-  for frame in frames_tracked:
-    video_tracked.write(cv2.cvtColor(np.array(frame), cv2.COLOR_RGB2BGR))
-  video_tracked.release()
+  tracked_video_filename = save_tracked_video(frames_tracked, filename)
+  (
+    ffmpeg
+    .input(tracked_video_filename)
+    .output(f'{tracked_video_filename}_final.mp4')
+    .overwrite_output()
+    .run()
+  )
 
 def trim_video(filepath):
   (
@@ -141,7 +125,6 @@ def trim_video(filepath):
     .output(filepath)
     .run()
   )
-
 
 def draw_emotion_label(draw, face_bounding_box, emotion_label):
   font_size = 45
@@ -155,6 +138,22 @@ def draw_emotion_label(draw, face_bounding_box, emotion_label):
     'lime',
     font=font
   )
+
+def save_tracked_video(frames_tracked, filename):
+  tracked_video_filename = f'{static_files_path}/tracked/{filename}_tracked.mp4'
+  dim = frames_tracked[0].size
+  fourcc = cv2.VideoWriter_fourcc(*'FMP4')
+  # fourcc = cv2.VideoWriter_fourcc(*'H264')
+  # fourcc = cv2.VideoWriter_fourcc(*'avc1')
+  # fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+  # fourcc = cv2.VideoWriter_fourcc('M','J','P','G')
+  # fourcc = cv2.VideoWriter_fourcc(*'PIM1')
+  video_tracked = cv2.VideoWriter(tracked_video_filename, fourcc, 25.0, dim)
+  for frame in frames_tracked:
+    video_tracked.write(cv2.cvtColor(np.array(frame), cv2.COLOR_RGB2BGR))
+  video_tracked.release()
+
+  return tracked_video_filename
 
 # this function is probably unnecessary anymore
 # TODO: finish refactoring
