@@ -64,8 +64,8 @@ def process_video(filename, are_emotions_tracked):
   frames_tracked = []
   print('frames count: ', len(frames))
   for i, frame in enumerate(frames):
-    # if i > 30:
-      # continue
+    # if i > 20:
+    #   continue
     # pprint(vars(frame))
     # if are_emotions_tracked:
       # if i > 16:

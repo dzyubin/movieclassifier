@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, jsonify, make_response, abort
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
 from wtforms import Form, TextAreaField, BooleanField, validators
@@ -99,16 +99,18 @@ class UploadForm(FlaskForm):
     file = FileField()
     areEmotionsTracked = BooleanField()
 
+root_dir = os.getcwd()
+if (os.path.isdir(f'{os.getcwd()}/movieclassifier_new')):
+	root_dir = f'{os.getcwd()}/movieclassifier_new'
+
+
 @app.route('/face-tracking', methods=['GET', 'POST'])
 def face_tracking():
-	root_dir = os.getcwd()
-	if (os.path.isdir(f'{os.getcwd()}/movieclassifier_new')):
-		root_dir = f'{os.getcwd()}/movieclassifier_new'
-	# print(root_dir)
+	print(root_dir)
 	form = UploadForm()
+	
 	tracked_dir_files = os.listdir(f'{root_dir}/static/tracked')
 	tracked_dir_paths = [f'static/tracked/{filename}' for filename in tracked_dir_files]
-
 	untracked_dir_files = os.listdir(f'{root_dir}/static/untracked')
 	untracked_dir_paths = [f'static/untracked/{filename}' for filename in untracked_dir_files]
 
@@ -122,6 +124,38 @@ def face_tracking():
 		return redirect(url_for('face_tracking', form=form, tracked_dir_paths=tracked_dir_paths, untracked_dir_paths=untracked_dir_paths))
 	
 	return render_template('face-tracking.html', form=form, tracked_dir_paths=tracked_dir_paths, untracked_dir_paths=untracked_dir_paths)
+
+@app.route('/delete-video/<filename>', methods=['DELETE'])
+def delete_video(filename):
+	folder, filename = filename.split(':::')
+	full_folder_path = f'{root_dir}/static/tracked' if folder is 'tracked' else f'{root_dir}/static/untracked'
+	try:
+		os.remove(f'{full_folder_path}/{filename}')
+		print('trying')
+		response = make_response(
+			jsonify(
+				{"message": 'File deleted'}
+			),
+			200
+		)
+		response.headers["Content-Type"] = "application/json"
+
+		return response
+	except Exception as e:
+		print('errored')
+		print(e)
+		response = make_response(
+			jsonify(
+				{"message": 'Error when deleting file'}
+			),
+			400,
+		)
+		response.headers["Content-Type"] = "application/json"
+		abort(400)
+		# return response
+		# return Response(status_code=400)
+
+	# return 'ok'
 
 @app.route('/question-answering', methods=['GET', 'POST'])
 def question_answering():

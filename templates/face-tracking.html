@@ -3,8 +3,10 @@
 	<head>
 		<title>Face Tracking</title>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css">
 		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 		<script src="{{url_for('static', filename='script.js')}}"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
 	</head>
 	<body>
 	<body style="background: url(https://blog.dormakaba.com/tachyon/2020/04/dormakaba-Blog-Post-pictures-_-1024-x-683-83.jpg?resize=1024%2C683&zoom=1);">
@@ -48,17 +50,23 @@
 				<div class="row">
 					<div class="col-6">
 						<h5>Uploaded Videos</h5>
-						<ul>
+						<ul id="untracked_files_list">
 							{% for filename in untracked_dir_paths %}
-								<li><a href='{{filename}}'>{{filename}}</a></li>
+								<li key="{{loop.index}}">
+									<a href='{{filename}}'>{{filename}}</a>
+									<button type="button" onclick="delete_video('{{filename}}', '{{loop.index}}')">X</button>
+								</li>
 							{% endfor %}
 						</ul>
 					</div>
 					<div class="col-6">
 						<h5>Videos with faces tracked</h5>
-						<ul>
+						<ul id="tracked_files_list">
 							{% for filename in tracked_dir_paths %}
-								<li><a href='{{filename}}'>{{filename}}</a></li>
+								<li key="{{loop.index}}">
+									<a href='{{filename}}'>{{filename}}</a>
+									<button type="button" onclick="delete_video('{{filename}}', '{{loop.index}}')">X</button>
+								</li>
 							{% endfor %}
 						</ul>
 					</div>
@@ -84,4 +92,37 @@
 			</form>
 		</div>
 	</body>
+	<script>
+		function delete_video(filepath, index) {
+			const filename = filepath.split('/')[2]
+			const tracked = filepath.split('/')[1]
+			console.log(filename, tracked);
+
+			fetch(`/delete-video/${tracked}:::${filename}`, {
+				method: 'DELETE',
+				header: {
+					'Accept' : 'application/json',
+					'Content-Type' : 'application/json',
+				}
+     		})
+				.then(res => {
+					if (res.status === 400) throw new Error("Error when deleting file")
+
+					let listId = '#untracked_files_list'
+					if (tracked === 'tracked') listId = '#tracked_files_list'
+
+					const liElement = document.querySelector(`${listId} li[key='${index}']`)
+					liElement.parentElement.removeChild(liElement)
+				})
+				.catch(err => {
+					console.log('error\n\n\n\n\n', err)
+					new Noty({
+						type: 'error',
+						layout: 'bottomRight',
+						text: err.message,
+						timeout: 3000
+					}).show();
+				})
+		}
+	</script>
 </html>
