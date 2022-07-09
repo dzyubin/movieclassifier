@@ -113,6 +113,12 @@
 
 					const liElement = document.querySelector(`${listId} li[key='${index}']`)
 					liElement.parentElement.removeChild(liElement)
+					new Noty({
+						type: 'success',
+						layout: 'bottomRight',
+						text: 'Video was deleted',
+						timeout: 3000
+					}).show();
 				})
 				.catch(err => {
 					console.log('error\n\n\n\n\n', err)
