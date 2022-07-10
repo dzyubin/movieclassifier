@@ -110,9 +110,9 @@ def face_tracking():
 	form = UploadForm()
 	
 	tracked_dir_files = os.listdir(f'{root_dir}/static/tracked')
-	tracked_dir_paths = [f'static/tracked/{filename}' for filename in tracked_dir_files]
+	tracked_dir_paths = tracked_dir_files
 	untracked_dir_files = os.listdir(f'{root_dir}/static/untracked')
-	untracked_dir_paths = [f'static/untracked/{filename}' for filename in untracked_dir_files]
+	untracked_dir_paths = untracked_dir_files
 
 	if form.validate_on_submit():
 		filename = secure_filename(form.file.data.filename)
@@ -128,7 +128,8 @@ def face_tracking():
 @app.route('/delete-video/<filename>', methods=['DELETE'])
 def delete_video(filename):
 	folder, filename = filename.split(':::')
-	full_folder_path = f'{root_dir}/static/tracked' if folder is 'tracked' else f'{root_dir}/static/untracked'
+	full_folder_path = f'{root_dir}/static/tracked' if folder == 'tracked' else f'{root_dir}/static/untracked'
+
 	try:
 		os.remove(f'{full_folder_path}/{filename}')
 		print('trying')

@@ -5,6 +5,7 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css">
 		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 		<script src="{{url_for('static', filename='script.js')}}"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
 	</head>
@@ -53,8 +54,10 @@
 						<ul id="untracked_files_list">
 							{% for filename in untracked_dir_paths %}
 								<li key="{{loop.index}}">
-									<a href='{{filename}}'>{{filename}}</a>
-									<button type="button" onclick="delete_video('{{filename}}', '{{loop.index}}')">X</button>
+									<a href='static/untracked/{{filename}}'>{{filename}}</a>
+									<button type="button" class="btn btn-sm btn-danger" title="Delete video" style="padding: 3px" onclick="delete_video('{{filename}}', '{{loop.index}}', false)">
+										<i class="bi-trash"></i>
+									</button>
 								</li>
 							{% endfor %}
 						</ul>
@@ -64,8 +67,10 @@
 						<ul id="tracked_files_list">
 							{% for filename in tracked_dir_paths %}
 								<li key="{{loop.index}}">
-									<a href='{{filename}}'>{{filename}}</a>
-									<button type="button" onclick="delete_video('{{filename}}', '{{loop.index}}')">X</button>
+									<a href='static/tracked/{{filename}}'>{{filename}}</a>
+									<button type="button" class="btn btn-sm btn-danger" title="Delete video" style="padding: 3px" onclick="delete_video('{{filename}}', '{{loop.index}}', true)">
+										<i class="bi-trash"></i>
+									</button>
 								</li>
 							{% endfor %}
 						</ul>
@@ -93,11 +98,10 @@
 		</div>
 	</body>
 	<script>
-		function delete_video(filepath, index) {
-			const filename = filepath.split('/')[2]
-			const tracked = filepath.split('/')[1]
-			console.log(filename, tracked);
-
+		function delete_video(filename, index, isTracked) {
+			console.log(filename, index, isTracked);
+			const tracked = isTracked ? 'tracked' : 'untracked'
+			
 			fetch(`/delete-video/${tracked}:::${filename}`, {
 				method: 'DELETE',
 				header: {
