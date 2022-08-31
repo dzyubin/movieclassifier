@@ -1,6 +1,6 @@
 setTimeout(() => {
     startSpinner()
-}, 0)
+}, 100)
 
 function startSpinner() {
     // face tracking
